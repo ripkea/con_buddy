@@ -4,597 +4,277 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Convention Sales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap');
-
-  :root {
-    --bg: #0f0f0f;
-    --surface: #1a1a1a;
-    --surface2: #242424;
-    --surface3: #2e2e2e;
-    --border: #333;
-    --accent: #c8f061;
-    --accent2: #61d4f0;
-    --accent3: #f06171;
-    --text: #f0f0f0;
-    --text-dim: #888;
-    --text-dimmer: #555;
-    --radius: 12px;
-    --radius-sm: 8px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* NAV */
-  nav {
-    display: flex;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  nav button {
-    flex: 1;
-    padding: 14px 8px;
-    background: none;
-    border: none;
-    color: var(--text-dim);
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-  }
-  nav button.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-  }
-
-  /* PAGES */
-  .page { display: none; padding: 16px; max-width: 600px; margin: 0 auto; }
-  .page.active { display: block; }
-
-  /* CONVENTION SELECTOR */
-  .convention-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 10px 14px;
-  }
-  .convention-bar select {
-    flex: 1;
-    background: none;
-    border: none;
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    cursor: pointer;
-    outline: none;
-  }
-  .convention-bar select option { background: var(--surface2); }
-  .btn-icon {
-    background: none;
-    border: none;
-    color: var(--accent);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 6px;
-    transition: background 0.15s;
-  }
-  .btn-icon:active { background: var(--surface3); }
-
-  /* SECTION HEADERS */
-  .section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--text-dimmer);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    margin-top: 20px;
-  }
-  .section-label:first-child { margin-top: 0; }
-
-  /* ORDER PAGE */
-  .overlay-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-  .overlay-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 6px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-  .overlay-btn:active { transform: scale(0.96); }
-  .overlay-btn.out-of-stock { opacity: 0.35; pointer-events: none; }
-  .overlay-btn .overlay-name {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.2;
-    word-break: break-word;
-  }
-  .overlay-btn .overlay-stock {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dimmer);
-  }
-  .overlay-btn .overlay-price {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-  }
-
-  /* ITEM TYPE MODAL */
-  .modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    z-index: 200;
-    align-items: flex-end;
-    justify-content: center;
-  }
-  .modal-backdrop.open { display: flex; }
-  .modal {
-    background: var(--surface);
-    border-radius: var(--radius) var(--radius) 0 0;
-    padding: 24px 20px;
-    width: 100%;
-    max-width: 600px;
-    border-top: 1px solid var(--border);
-  }
-  .modal-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    color: var(--text-dim);
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  .modal-title strong { color: var(--text); display: block; font-size: 16px; margin-top: 4px; }
-  .modal-options { display: flex; flex-direction: column; gap: 10px; }
-  .modal-option {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .modal-option:active { background: var(--surface3); }
-  .modal-option .opt-name { font-weight: 600; font-size: 15px; }
-  .modal-option .opt-price {
-    font-family: 'Space Mono', monospace;
-    color: var(--accent);
-    font-size: 14px;
-  }
-  .modal-option.with-card { border-color: var(--accent2); }
-  .modal-option.with-card .opt-price { color: var(--accent2); }
-  .modal-cancel {
-    margin-top: 12px;
-    width: 100%;
-    padding: 14px;
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text-dim);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    cursor: pointer;
-  }
-
-  /* CURRENT ORDER */
-  .order-items { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-  .order-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .order-item-info { flex: 1; }
-  .order-item-name { font-size: 13px; font-weight: 600; }
-  .order-item-type { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
-  .order-item-price {
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    color: var(--accent);
-    margin-right: 8px;
-  }
-  .btn-remove {
-    background: none;
-    border: none;
-    color: var(--accent3);
-    font-size: 18px;
-    cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 6px;
-    line-height: 1;
-  }
-  .btn-remove:active { background: var(--surface3); }
-
-  .order-empty {
-    text-align: center;
-    color: var(--text-dimmer);
-    font-size: 13px;
-    padding: 24px;
-    border: 1px dashed var(--border);
-    border-radius: var(--radius-sm);
-    margin-bottom: 12px;
-  }
-
-  /* TOTAL + PAYMENT */
-  .total-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    margin-bottom: 12px;
-  }
-  .total-label { font-size: 13px; color: var(--text-dim); }
-  .total-amount {
-    font-family: 'Space Mono', monospace;
-    font-size: 22px;
-    color: var(--accent);
-    font-weight: 700;
-  }
-
-  .payment-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .pay-toggle {
-    flex: 1;
-    padding: 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text-dim);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: center;
-  }
-  .pay-toggle.active-cash { background: #1a2e0a; border-color: var(--accent); color: var(--accent); }
-  .pay-toggle.active-paypal { background: #0a1e2e; border-color: var(--accent2); color: var(--accent2); }
-
-  .change-row {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    margin-bottom: 12px;
-  }
-  .change-row label {
-    font-size: 11px;
-    color: var(--text-dimmer);
-    font-family: 'Space Mono', monospace;
-    letter-spacing: 0.08em;
-    display: block;
-    margin-bottom: 8px;
-  }
-  .change-input-row { display: flex; align-items: center; gap: 10px; }
-  .change-row input {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    font-size: 16px;
-    outline: none;
-    width: 100%;
-  }
-  .change-row input:focus { border-color: var(--accent); }
-  .change-display {
-    font-family: 'Space Mono', monospace;
-    font-size: 18px;
-    font-weight: 700;
-    min-width: 80px;
-    text-align: right;
-  }
-  .change-display.positive { color: var(--accent); }
-  .change-display.negative { color: var(--accent3); }
-
-  .btn-complete {
-    width: 100%;
-    padding: 16px;
-    background: var(--accent);
-    border: none;
-    border-radius: var(--radius-sm);
-    color: #0f0f0f;
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    transition: opacity 0.15s;
-    margin-bottom: 8px;
-  }
-  .btn-complete:active { opacity: 0.85; }
-  .btn-complete:disabled { opacity: 0.3; pointer-events: none; }
-
-  .btn-clear {
-    width: 100%;
-    padding: 12px;
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text-dim);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-  }
-
-  /* STOCK PAGE */
-  .stock-table { width: 100%; border-collapse: collapse; }
-  .stock-table th {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--text-dimmer);
-    text-align: left;
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .stock-table td {
-    padding: 10px 10px;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-    vertical-align: middle;
-  }
-  .stock-table tr:last-child td { border-bottom: none; }
-  .stock-table input[type="number"], .stock-table input[type="text"] {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px 8px;
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    width: 100%;
-    outline: none;
-  }
-  .stock-table input:focus { border-color: var(--accent); }
-  .stock-table input[type="number"] { width: 60px; text-align: center; }
-  .stock-badge {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    background: var(--surface3);
-    color: var(--text-dim);
-  }
-  .stock-badge.low { background: #2e1a0a; color: #f0a061; }
-  .stock-badge.out { background: #2e0a0a; color: var(--accent3); }
-
-  .btn-add-overlay {
-    width: 100%;
-    margin-top: 12px;
-    padding: 12px;
-    background: none;
-    border: 1px dashed var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--accent);
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    transition: background 0.15s;
-  }
-  .btn-add-overlay:active { background: var(--surface); }
-
-  .btn-delete-overlay {
-    background: none;
-    border: none;
-    color: var(--text-dimmer);
-    cursor: pointer;
-    font-size: 16px;
-    padding: 4px;
-    border-radius: 4px;
-  }
-  .btn-delete-overlay:active { color: var(--accent3); }
-
-  /* HISTORY PAGE */
-  .sale-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
-    margin-bottom: 10px;
-  }
-  .sale-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
-  .sale-time {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dimmer);
-  }
-  .sale-total-badge {
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-  .sale-pay-badge {
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-family: 'Space Mono', monospace;
-  }
-  .sale-pay-badge.cash { background: #1a2e0a; color: var(--accent); }
-  .sale-pay-badge.paypal { background: #0a1e2e; color: var(--accent2); }
-  .sale-items { font-size: 12px; color: var(--text-dim); line-height: 1.8; }
-
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px;
-    text-align: center;
-  }
-  .stat-value {
-    font-family: 'Space Mono', monospace;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-  .stat-label {
-    font-size: 10px;
-    color: var(--text-dimmer);
-    margin-top: 4px;
-  }
-
-  .empty-state {
-    text-align: center;
-    color: var(--text-dimmer);
-    font-size: 13px;
-    padding: 40px 20px;
-  }
-
-  /* CONVENTION MODAL */
-  .conv-modal {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 24px 20px;
-    width: calc(100% - 40px);
-    max-width: 400px;
-    border: 1px solid var(--border);
-  }
-  .conv-modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-  }
-  .conv-modal-backdrop.open { display: flex; }
-  .conv-modal h3 {
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    margin-bottom: 14px;
-    color: var(--text-dim);
-  }
-  .conv-modal input {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    outline: none;
-    margin-bottom: 12px;
-  }
-  .conv-modal input:focus { border-color: var(--accent); }
-  .conv-modal-btns { display: flex; gap: 8px; }
-  .btn-confirm {
-    flex: 1;
-    padding: 12px;
-    background: var(--accent);
-    border: none;
-    border-radius: var(--radius-sm);
-    color: #0f0f0f;
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  .btn-cancel-modal {
-    flex: 1;
-    padding: 12px;
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text-dim);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-  }
+:root {
+  --green: #97E56D;
+  --teal: #0DCCA2;
+  --grad: linear-gradient(135deg, #97E56D 0%, #0DCCA2 100%);
+  --grad-soft: linear-gradient(135deg, #edfce4 0%, #d8faf3 100%);
+  --bg: #f5f6f4;
+  --surface: #ffffff;
+  --surface2: #f0f2ef;
+  --border: #e2e5e0;
+  --border-dark: #cdd0ca;
+  --text: #1c2119;
+  --text-dim: #6b7369;
+  --text-dimmer: #a0a89e;
+  --green-dark: #3a7a20;
+  --teal-dark: #0a7a62;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 7px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  font-size: 15px;
+}
+nav {
+  display: flex;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 4px;
+}
+nav button {
+  flex: 1;
+  padding: 14px 6px 12px;
+  background: none;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  color: var(--text-dimmer);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+}
+nav button.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+.page { display: none; padding: 16px; padding-bottom: 32px; max-width: 520px; margin: 0 auto; }
+.page.active { display: block; }
+.convention-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+.convention-bar select {
+  flex: 1; background: none; border: none; color: var(--text);
+  font-family: 'DM Mono', monospace; font-size: 12px; cursor: pointer; outline: none; min-width: 0;
+}
+.convention-bar select option { background: #fff; }
+.btn-icon {
+  background: var(--grad); border: none; color: #fff;
+  font-size: 20px; line-height: 1; cursor: pointer;
+  width: 30px; height: 30px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 500;
+}
+.btn-icon:active { opacity: 0.8; }
+.section-label {
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+  color: var(--text-dimmer); text-transform: uppercase; margin-bottom: 10px; margin-top: 22px;
+}
+.section-label:first-child { margin-top: 0; }
+.overlay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 4px; }
+.overlay-btn {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 8px 10px; text-align: center; cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-height: 72px; justify-content: center;
+}
+.overlay-btn:active { transform: scale(0.95); border-color: var(--teal); }
+.overlay-btn.out-of-stock { opacity: 0.35; pointer-events: none; }
+.overlay-btn .ov-name { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.2; word-break: break-word; }
+.overlay-btn .ov-stock { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dimmer); }
+.overlay-btn .ov-price { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal-dark); font-weight: 500; }
+.modal-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(28,33,25,0.45); z-index: 200; align-items: flex-end; justify-content: center;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: var(--surface); border-radius: var(--radius) var(--radius) 0 0;
+  padding: 20px 18px 32px; width: 100%; max-width: 520px; border-top: 1px solid var(--border);
+}
+.modal-handle { width: 36px; height: 4px; background: var(--border-dark); border-radius: 2px; margin: 0 auto 18px; }
+.modal-ov-name { font-size: 17px; font-weight: 600; text-align: center; margin-bottom: 4px; }
+.modal-sub { font-size: 12px; color: var(--text-dim); text-align: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; }
+.modal-options { display: flex; flex-direction: column; gap: 10px; }
+.modal-option {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 16px 18px; display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; transition: border-color 0.15s, background 0.15s;
+}
+.modal-option:active { background: #d8faf3; border-color: var(--teal); }
+.modal-option.with-card:active { background: #edfce4; border-color: var(--green); }
+.modal-option .opt-name { font-size: 15px; font-weight: 500; }
+.modal-option .opt-price { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--teal-dark); font-weight: 500; }
+.modal-option.with-card .opt-price { color: var(--green-dark); }
+.modal-cancel {
+  margin-top: 12px; width: 100%; padding: 14px; background: none;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 15px; cursor: pointer;
+}
+.order-empty {
+  text-align: center; color: var(--text-dimmer); font-size: 13px; padding: 22px;
+  border: 1.5px dashed var(--border-dark); border-radius: var(--radius-sm); margin-bottom: 14px; background: var(--surface);
+}
+.order-items { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+.order-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 11px 14px; display: flex; align-items: center; gap: 10px;
+}
+.order-item-info { flex: 1; min-width: 0; }
+.order-item-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.order-item-type { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.order-item-price { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--teal-dark); font-weight: 500; flex-shrink: 0; margin-right: 6px; }
+.btn-remove { background: none; border: none; color: var(--text-dimmer); font-size: 20px; line-height: 1; cursor: pointer; padding: 2px 4px; border-radius: 6px; flex-shrink: 0; }
+.btn-remove:active { color: #c0392b; background: #fdecea; }
+.total-row {
+  background: var(--grad-soft); border: 1px solid #bfeddc; border-radius: var(--radius-sm);
+  padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+}
+.total-label { font-size: 13px; color: var(--teal-dark); font-weight: 500; }
+.total-amount { font-family: 'DM Mono', monospace; font-size: 24px; font-weight: 500; color: var(--teal-dark); }
+.payment-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.pay-toggle {
+  flex: 1; padding: 13px 8px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text-dim); font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; text-align: center;
+}
+.pay-toggle.active-cash { background: #edfce4; border-color: var(--green); color: var(--green-dark); }
+.pay-toggle.active-paypal { background: #d8faf3; border-color: var(--teal); color: var(--teal-dark); }
+.change-row {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 12px;
+}
+.change-row label { display: block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--text-dimmer); margin-bottom: 10px; }
+.change-input-row { display: flex; align-items: center; gap: 12px; }
+.change-row input {
+  flex: 1; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius-xs); padding: 10px 12px; color: var(--text);
+  font-family: 'DM Mono', monospace; font-size: 17px; outline: none; min-width: 0;
+}
+.change-row input:focus { border-color: var(--teal); }
+.change-display { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; min-width: 90px; text-align: right; flex-shrink: 0; color: var(--text-dimmer); }
+.change-display.positive { color: var(--teal-dark); }
+.change-display.negative { color: #c0392b; }
+.btn-complete {
+  width: 100%; padding: 17px; background: var(--grad); border: none;
+  border-radius: var(--radius-sm); color: #fff; font-family: 'DM Mono', monospace;
+  font-size: 13px; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; margin-bottom: 8px; transition: opacity 0.15s;
+}
+.btn-complete:active { opacity: 0.85; }
+.btn-complete:disabled { opacity: 0.28; pointer-events: none; }
+.btn-secondary {
+  width: 100%; padding: 12px; background: none; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer;
+}
+.btn-secondary:active { background: var(--surface2); }
+.stock-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.stock-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.stock-table th {
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.09em;
+  color: var(--text-dimmer); text-align: left; padding: 10px 12px;
+  border-bottom: 1px solid var(--border); background: var(--surface2); font-weight: 400;
+}
+.stock-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.stock-table tr:last-child td { border-bottom: none; }
+.stock-table input[type="text"] {
+  background: none; border: none; color: var(--text); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500; width: 100%; outline: none; padding: 4px 0; border-bottom: 1px solid transparent;
+}
+.stock-table input[type="text"]:focus { border-bottom-color: var(--teal); }
+.stock-table input[type="number"] {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-xs);
+  padding: 6px 8px; color: var(--text); font-family: 'DM Mono', monospace;
+  font-size: 13px; width: 58px; text-align: center; outline: none;
+}
+.stock-table input[type="number"]:focus { border-color: var(--teal); }
+.btn-delete-row { background: none; border: none; color: var(--text-dimmer); cursor: pointer; font-size: 15px; line-height: 1; padding: 4px 6px; border-radius: 5px; }
+.btn-delete-row:active { background: #fdecea; color: #c0392b; }
+.btn-add-row {
+  width: 100%; margin-top: 10px; padding: 13px; background: none;
+  border: 1.5px dashed var(--border-dark); border-radius: var(--radius-sm);
+  color: var(--teal-dark); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; cursor: pointer;
+}
+.btn-add-row:active { background: var(--surface); }
+.save-btn {
+  width: 100%; margin-top: 10px; padding: 14px; background: var(--grad); border: none;
+  border-radius: var(--radius-sm); color: #fff; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em; cursor: pointer;
+}
+.save-btn:active { opacity: 0.85; }
+.stats-row { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-bottom: 20px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 10px; text-align: center; }
+.stat-val {
+  font-family: 'DM Mono', monospace; font-size: 19px; font-weight: 500;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.stat-lbl { font-size: 10px; color: var(--text-dimmer); margin-top: 3px; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+.sale-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 9px; }
+.sale-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.sale-time { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dimmer); }
+.sale-badges { display: flex; gap: 6px; margin-top: 5px; }
+.pay-pill { font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.04em; }
+.pay-pill.cash { background: #edfce4; color: var(--green-dark); }
+.pay-pill.paypal { background: #d8faf3; color: var(--teal-dark); }
+.sale-total { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--teal-dark); }
+.sale-items-list { font-size: 12px; color: var(--text-dim); line-height: 1.9; border-top: 1px solid var(--border); padding-top: 10px; }
+.empty-state { text-align: center; color: var(--text-dimmer); font-size: 13px; padding: 40px 20px; }
+.conv-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(28,33,25,0.45); z-index: 200; align-items: center; justify-content: center; padding: 20px;
+}
+.conv-backdrop.open { display: flex; }
+.conv-modal { background: var(--surface); border-radius: var(--radius); padding: 24px 20px; width: 100%; max-width: 360px; border: 1px solid var(--border); }
+.conv-modal h3 { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 14px; }
+.conv-modal input {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-xs);
+  padding: 13px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; margin-bottom: 14px;
+}
+.conv-modal input:focus { border-color: var(--teal); }
+.conv-modal-btns { display: flex; gap: 8px; }
+.btn-confirm { flex: 1; padding: 13px; background: var(--grad); border: none; border-radius: var(--radius-xs); color: #fff; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em; cursor: pointer; }
+.btn-cancel-modal { flex: 1; padding: 13px; background: none; border: 1px solid var(--border); border-radius: var(--radius-xs); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <nav>
-  <button class="active" onclick="showPage('order')">ORDER</button>
-  <button onclick="showPage('stock')">STOCK</button>
-  <button onclick="showPage('history')">HISTORY</button>
+  <button class="active" onclick="showPage('order',this)">ORDER</button>
+  <button onclick="showPage('stock',this)">STOCK</button>
+  <button onclick="showPage('history',this)">HISTORY</button>
 </nav>
 
-<!-- ORDER PAGE -->
 <div class="page active" id="page-order">
   <div class="convention-bar">
     <select id="conv-select" onchange="switchConvention()"></select>
-    <button class="btn-icon" onclick="openConvModal()" title="New convention">＋</button>
+    <button class="btn-icon" onclick="openConvModal()">+</button>
   </div>
-
-  <div class="section-label">Overlays — tap to add to order</div>
+  <div class="section-label">Overlays</div>
   <div class="overlay-grid" id="overlay-grid"></div>
-
   <div class="section-label">Current Order</div>
-  <div id="order-items-container"></div>
-
+  <div id="order-container"></div>
   <div class="total-row">
     <span class="total-label">Total</span>
     <span class="total-amount" id="order-total">€0.00</span>
   </div>
-
   <div class="payment-row">
     <button class="pay-toggle" id="pay-cash" onclick="setPayment('cash')">💵 Cash</button>
-    <button class="pay-toggle" id="pay-paypal" onclick="setPayment('paypal')">🅿️ PayPal</button>
+    <button class="pay-toggle" id="pay-paypal" onclick="setPayment('paypal')">🅿 PayPal</button>
   </div>
-
   <div class="change-row" id="change-section" style="display:none">
     <label>CUSTOMER GAVE</label>
     <div class="change-input-row">
@@ -602,47 +282,43 @@
       <span class="change-display" id="change-display">—</span>
     </div>
   </div>
-
   <button class="btn-complete" id="btn-complete" onclick="completeOrder()" disabled>COMPLETE ORDER</button>
-  <button class="btn-clear" onclick="clearOrder()">Clear order</button>
+  <button class="btn-secondary" onclick="clearOrder()">Clear order</button>
 </div>
 
-<!-- STOCK PAGE -->
 <div class="page" id="page-stock">
   <div class="convention-bar">
-    <select id="conv-select-stock" onchange="switchConventionStock()"></select>
+    <select id="conv-select-stock" onchange="switchConv('conv-select-stock')"></select>
   </div>
   <div class="section-label">Overlay Stock</div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
-    <table class="stock-table" id="stock-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th style="width:70px">Stock</th>
-          <th style="width:40px"></th>
-        </tr>
-      </thead>
+  <div class="stock-wrap">
+    <table class="stock-table">
+      <thead><tr><th style="width:auto">Name</th><th style="width:80px">Stock</th><th style="width:80px">CardStock</th><th style="width:44px"></th></tr></thead>
       <tbody id="stock-tbody"></tbody>
     </table>
   </div>
-  <button class="btn-add-overlay" onclick="addOverlay()">+ ADD OVERLAY</button>
-  <button class="btn-clear" style="margin-top:8px" onclick="saveStock()">💾 Save Stock</button>
+  <button class="btn-add-row" onclick="addOverlay()">+ ADD OVERLAY</button>
+  <button class="save-btn" onclick="saveStock()">SAVE STOCK</button>
+    <!-- In the Stock page, below SAVE STOCK -->
+<button class="save-btn" onclick="exportStockCSV()">EXPORT STOCK CSV</button>
+<input type="file" id="import-stock-file" accept=".csv" style="display:none" onchange="importStockCSV(event)">
 </div>
 
-<!-- HISTORY PAGE -->
 <div class="page" id="page-history">
   <div class="convention-bar">
-    <select id="conv-select-history" onchange="switchConventionHistory()"></select>
+    <select id="conv-select-history" onchange="switchConv('conv-select-history')"></select>
   </div>
+    <button class="save-btn" style="margin-bottom: 12px" onclick="exportSalesCSV()">EXPORT SALES CSV</button>
   <div class="stats-row" id="stats-row"></div>
   <div class="section-label">Sales Log</div>
   <div id="history-list"></div>
 </div>
 
-<!-- ITEM TYPE MODAL -->
 <div class="modal-backdrop" id="item-modal">
   <div class="modal">
-    <div class="modal-title">Add to order<strong id="modal-overlay-name"></strong></div>
+    <div class="modal-handle"></div>
+    <div class="modal-ov-name" id="modal-ov-name"></div>
+    <div class="modal-sub">Choose type</div>
     <div class="modal-options">
       <div class="modal-option" onclick="addToOrder('overlay')">
         <span class="opt-name">Overlay only</span>
@@ -657,8 +333,44 @@
   </div>
 </div>
 
-<!-- NEW CONVENTION MODAL -->
-<div class="conv-modal-backdrop" id="conv-modal">
+<div class="modal-backdrop" id="cash-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-ov-name">Enter Cash</div>
+    <div class="modal-sub">Customer payment</div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px;">
+
+      <div style="grid-column: span 4;">
+        <input type="number" id="cash-input" placeholder="0.00" step="0.50" min="0"
+          style="width:100%;padding:16px;font-size:20px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);font-family:'DM Mono', monospace;">
+      </div>
+
+      <button class="modal-option" style="font-size:19px;" onclick="clearCash()">
+        Clear
+      </button>
+
+    </div>
+
+    <!-- Quick buttons (mobile friendly) -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
+      <button class="modal-option" onclick="addCash(5)">€5</button>
+      <button class="modal-option" onclick="addCash(10)">€10</button>
+      <button class="modal-option" onclick="addCash(20)">€20</button>
+      <button class="modal-option" onclick="addCash(50)">€50</button>
+    </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;">
+              <button class="modal-cancel" onclick="closeCashModal()">Cancel</button>
+
+        <button class="modal-option save-btn" style="font-size: 19px !important; margin-top: 12px" onclick="confirmCash()">Confirm</button>
+
+    </div>
+
+
+  </div>
+</div>
+
+<div class="conv-backdrop" id="conv-modal">
   <div class="conv-modal">
     <h3>NEW CONVENTION</h3>
     <input type="text" id="conv-name-input" placeholder="e.g. AnimagiC 2025" maxlength="40">
@@ -670,354 +382,281 @@
 </div>
 
 <script>
-// ─── STATE ───────────────────────────────────────────────────────────────────
-let state = loadState();
-let currentOrder = [];
-let selectedPayment = null;
-let pendingOverlay = null;
+let state = (()=>{ try { return JSON.parse(localStorage.getItem('cs2'))||{conventions:[],active:null}; } catch { return {conventions:[],active:null}; } })();
+let order=[], payment=null, pendingOv=null;
 
-function loadState() {
-  try {
-    return JSON.parse(localStorage.getItem('convSales')) || defaultState();
-  } catch { return defaultState(); }
+function save(){ localStorage.setItem('cs2', JSON.stringify(state)); }
+function conv(){ return state.conventions.find(c=>c.id===state.active); }
+
+window.onload=()=>{ if(!state.conventions.length) addConvData('My First Convention'); renderAll(); };
+
+function renderAll(){ fillSelects(); renderGrid(); renderOrderUI(); renderStock(); renderHistory(); }
+
+function addConvData(name){
+  const id='c'+Date.now();
+  state.conventions.push({id,name,overlays:[],sales:[]});
+  state.active=id; save();
 }
-
-function defaultState() {
-  return {
-    conventions: [],
-    activeConvention: null
-  };
-}
-
-function saveState() {
-  localStorage.setItem('convSales', JSON.stringify(state));
-}
-
-function getConvention(id) {
-  return state.conventions.find(c => c.id === id);
-}
-
-function activeConv() {
-  return getConvention(state.activeConvention);
-}
-
-// ─── INIT ─────────────────────────────────────────────────────────────────────
-window.onload = () => {
-  if (state.conventions.length === 0) {
-    // Create default convention
-    createConventionData('My First Convention');
-  }
-  renderAll();
-};
-
-function renderAll() {
-  populateConvSelects();
-  renderOverlayGrid();
-  renderOrder();
-  renderStock();
-  renderHistory();
-}
-
-// ─── CONVENTIONS ──────────────────────────────────────────────────────────────
-function createConventionData(name) {
-  const id = 'conv_' + Date.now();
-  state.conventions.push({
-    id,
-    name,
-    overlays: [],
-    sales: []
-  });
-  state.activeConvention = id;
-  saveState();
-}
-
-function populateConvSelects() {
-  const selects = ['conv-select', 'conv-select-stock', 'conv-select-history'];
-  selects.forEach(sid => {
-    const sel = document.getElementById(sid);
-    if (!sel) return;
-    sel.innerHTML = state.conventions.map(c =>
-      `<option value="${c.id}" ${c.id === state.activeConvention ? 'selected' : ''}>${c.name}</option>`
-    ).join('');
+function fillSelects(){
+  ['conv-select','conv-select-stock','conv-select-history'].forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.innerHTML=state.conventions.map(c=>`<option value="${c.id}"${c.id===state.active?' selected':''}>${c.name}</option>`).join('');
   });
 }
-
-function switchConvention() {
-  state.activeConvention = document.getElementById('conv-select').value;
-  currentOrder = [];
-  selectedPayment = null;
-  saveState();
-  renderAll();
-}
-function switchConventionStock() {
-  state.activeConvention = document.getElementById('conv-select-stock').value;
-  saveState(); renderAll();
-}
-function switchConventionHistory() {
-  state.activeConvention = document.getElementById('conv-select-history').value;
-  saveState(); renderAll();
+function switchConvention(){ state.active=document.getElementById('conv-select').value; order=[]; payment=null; save(); renderAll(); }
+function switchConv(sel){ state.active=document.getElementById(sel).value; save(); renderAll(); }
+function openConvModal(){ document.getElementById('conv-name-input').value=''; document.getElementById('conv-modal').classList.add('open'); setTimeout(()=>document.getElementById('conv-name-input').focus(),120); }
+function closeConvModal(){ document.getElementById('conv-modal').classList.remove('open'); }
+function createConvention(){
+  const name=document.getElementById('conv-name-input').value.trim(); if(!name) return;
+  addConvData(name); closeConvModal(); order=[]; payment=null; renderAll();
 }
 
-function openConvModal() {
-  document.getElementById('conv-name-input').value = '';
-  document.getElementById('conv-modal').classList.add('open');
-  setTimeout(() => document.getElementById('conv-name-input').focus(), 100);
-}
-function closeConvModal() {
-  document.getElementById('conv-modal').classList.remove('open');
-}
-function createConvention() {
-  const name = document.getElementById('conv-name-input').value.trim();
-  if (!name) return;
-  createConventionData(name);
-  closeConvModal();
-  currentOrder = [];
-  selectedPayment = null;
-  renderAll();
-}
-
-// ─── OVERLAYS ─────────────────────────────────────────────────────────────────
-function renderOverlayGrid() {
-  const conv = activeConv();
-  const grid = document.getElementById('overlay-grid');
-  if (!conv || conv.overlays.length === 0) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-dimmer);font-size:13px;padding:20px;">No overlays yet — add them in Stock tab</div>`;
-    return;
-  }
-  grid.innerHTML = conv.overlays.map(ov => {
-    const outOfStock = ov.stock <= 0;
-    return `<div class="overlay-btn ${outOfStock ? 'out-of-stock' : ''}" onclick="openItemModal('${ov.id}')">
-      <span class="overlay-name">${ov.name}</span>
-      <span class="overlay-stock">${ov.stock} left</span>
-      <span class="overlay-price">€5</span>
-    </div>`;
-  }).join('');
-}
-
-// ─── ITEM MODAL ───────────────────────────────────────────────────────────────
-function openItemModal(overlayId) {
-  const conv = activeConv();
-  const ov = conv.overlays.find(o => o.id === overlayId);
-  if (!ov) return;
-  pendingOverlay = ov;
-  document.getElementById('modal-overlay-name').textContent = ov.name;
-  document.getElementById('item-modal').classList.add('open');
-}
-function closeItemModal() {
-  document.getElementById('item-modal').classList.remove('open');
-  pendingOverlay = null;
-}
-function addToOrder(type) {
-  if (!pendingOverlay) return;
-  currentOrder.push({
-    overlayId: pendingOverlay.id,
-    overlayName: pendingOverlay.name,
-    type, // 'overlay' or 'overlay+card'
-    price: type === 'overlay' ? 5 : 6
-  });
-  closeItemModal();
-  renderOrder();
-}
-
-// ─── ORDER ────────────────────────────────────────────────────────────────────
-function renderOrder() {
-  const container = document.getElementById('order-items-container');
-  if (currentOrder.length === 0) {
-    container.innerHTML = `<div class="order-empty">No items yet — tap an overlay above</div>`;
-  } else {
-    container.innerHTML = `<div class="order-items">${currentOrder.map((item, i) => `
-      <div class="order-item">
-        <div class="order-item-info">
-          <div class="order-item-name">${item.overlayName}</div>
-          <div class="order-item-type">${item.type === 'overlay' ? 'Overlay only' : 'Overlay + TCG Card'}</div>
-        </div>
-        <span class="order-item-price">€${item.price}.00</span>
-        <button class="btn-remove" onclick="removeItem(${i})">×</button>
-      </div>`).join('')}</div>`;
-  }
-
-  const total = currentOrder.reduce((s, i) => s + i.price, 0);
-  document.getElementById('order-total').textContent = `€${total.toFixed(2)}`;
-
-  const canComplete = currentOrder.length > 0 && selectedPayment !== null;
-  document.getElementById('btn-complete').disabled = !canComplete;
-
-  calcChange();
-}
-
-function removeItem(index) {
-  currentOrder.splice(index, 1);
-  renderOrder();
-}
-
-function clearOrder() {
-  currentOrder = [];
-  selectedPayment = null;
-  document.getElementById('given-amount').value = '';
-  document.getElementById('pay-cash').className = 'pay-toggle';
-  document.getElementById('pay-paypal').className = 'pay-toggle';
-  document.getElementById('change-section').style.display = 'none';
-  renderOrder();
-}
-
-function setPayment(type) {
-  selectedPayment = type;
-  document.getElementById('pay-cash').className = 'pay-toggle' + (type === 'cash' ? ' active-cash' : '');
-  document.getElementById('pay-paypal').className = 'pay-toggle' + (type === 'paypal' ? ' active-paypal' : '');
-  document.getElementById('change-section').style.display = type === 'cash' ? 'block' : 'none';
-  renderOrder();
-}
-
-function calcChange() {
-  const total = currentOrder.reduce((s, i) => s + i.price, 0);
-  const given = parseFloat(document.getElementById('given-amount').value) || 0;
-  const change = given - total;
-  const el = document.getElementById('change-display');
-  if (given === 0) { el.textContent = '—'; el.className = 'change-display'; return; }
-  el.textContent = `€${Math.abs(change).toFixed(2)}`;
-  el.className = 'change-display ' + (change >= 0 ? 'positive' : 'negative');
-  if (change < 0) el.textContent = '-€' + Math.abs(change).toFixed(2);
-}
-
-function completeOrder() {
-  if (currentOrder.length === 0 || !selectedPayment) return;
-  const conv = activeConv();
-  const total = currentOrder.reduce((s, i) => s + i.price, 0);
-
-  // Deduct stock
-  currentOrder.forEach(item => {
-    const ov = conv.overlays.find(o => o.id === item.overlayId);
-    if (ov) {
-      ov.stock = Math.max(0, ov.stock - 1);
-      if (item.type === 'overlay+card') {
-        ov.cardStock = Math.max(0, (ov.cardStock || 0) - 1);
-      }
-    }
-  });
-
-  // Save sale
-  conv.sales.push({
-    id: 'sale_' + Date.now(),
-    time: new Date().toISOString(),
-    items: [...currentOrder],
-    total,
-    payment: selectedPayment
-  });
-
-  saveState();
-  clearOrder();
-  renderAll();
-}
-
-// ─── STOCK ────────────────────────────────────────────────────────────────────
-function renderStock() {
-  const conv = activeConv();
-  const tbody = document.getElementById('stock-tbody');
-  if (!conv || conv.overlays.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:var(--text-dimmer);padding:20px;font-size:13px;">No overlays yet</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = conv.overlays.map(ov => {
-    const stockClass = ov.stock === 0 ? 'out' : ov.stock <= 3 ? 'low' : '';
-    return `<tr>
-      <td><input type="text" value="${ov.name}" onchange="updateOverlayName('${ov.id}', this.value)" style="width:100%;min-width:80px;"></td>
-      <td><input type="number" value="${ov.stock}" min="0" onchange="updateOverlayStock('${ov.id}', this.value)"></td>
-      <td><button class="btn-delete-overlay" onclick="deleteOverlay('${ov.id}')">🗑</button></td>
-    </tr>`;
-  }).join('');
-}
-
-function addOverlay() {
-  const conv = activeConv();
-  conv.overlays.push({
-    id: 'ov_' + Date.now(),
-    name: 'New Overlay',
-    stock: 0,
-    cardStock: 0
-  });
-  saveState();
-  renderStock();
-  renderOverlayGrid();
-}
-
-function updateOverlayName(id, name) {
-  const conv = activeConv();
-  const ov = conv.overlays.find(o => o.id === id);
-  if (ov) { ov.name = name; saveState(); renderOverlayGrid(); }
-}
-
-function updateOverlayStock(id, val) {
-  const conv = activeConv();
-  const ov = conv.overlays.find(o => o.id === id);
-  if (ov) { ov.stock = Math.max(0, parseInt(val) || 0); saveState(); renderOverlayGrid(); }
-}
-
-function deleteOverlay(id) {
-  const conv = activeConv();
-  conv.overlays = conv.overlays.filter(o => o.id !== id);
-  saveState();
-  renderStock();
-  renderOverlayGrid();
-}
-
-function saveStock() {
-  saveState();
-  const btn = document.querySelector('.page#page-stock .btn-clear');
-  const orig = btn.textContent;
-  btn.textContent = '✓ Saved!';
-  setTimeout(() => btn.textContent = orig, 1500);
-}
-
-// ─── HISTORY ──────────────────────────────────────────────────────────────────
-function renderHistory() {
-  const conv = activeConv();
-  const list = document.getElementById('history-list');
-  const statsRow = document.getElementById('stats-row');
-
-  if (!conv || conv.sales.length === 0) {
-    statsRow.innerHTML = '';
-    list.innerHTML = `<div class="empty-state">No sales yet for this convention</div>`;
+function renderGrid(){
+  const c = conv(), grid = document.getElementById('overlay-grid');
+  if(!c || !c.overlays.length){
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-dimmer);font-size:12px;padding:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm)">Add overlays in the Stock tab</div>`;
     return;
   }
 
-  const totalRev = conv.sales.reduce((s, sale) => s + sale.total, 0);
-  const cashSales = conv.sales.filter(s => s.payment === 'cash');
-  const paypalSales = conv.sales.filter(s => s.payment === 'paypal');
-  const cashRev = cashSales.reduce((s, sale) => s + sale.total, 0);
-  const paypalRev = paypalSales.reduce((s, sale) => s + sale.total, 0);
+    grid.innerHTML = [...c.overlays]
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(ov => {
+        // count items already in order
+        const overlayCount = order.filter(i => i.overlayId === ov.id).length;
+        const cardCount = order.filter(i => i.overlayId === ov.id && i.type === 'overlay+card').length;
 
-  statsRow.innerHTML = `
-    <div class="stat-card"><div class="stat-value">€${totalRev.toFixed(0)}</div><div class="stat-label">Total Revenue</div></div>
-    <div class="stat-card"><div class="stat-value">${conv.sales.length}</div><div class="stat-label">Orders</div></div>
-    <div class="stat-card"><div class="stat-value">€${(totalRev / conv.sales.length).toFixed(0)}</div><div class="stat-label">Avg Order</div></div>
+        const availableOverlay = Math.max(0, ov.stock - overlayCount);
+        const availableCard = Math.max(0, ov.cardStock - cardCount);
+
+        return `
+          <div class="overlay-btn${availableOverlay <= 0 ? ' out-of-stock' : ''}" onclick="openItemModal('${ov.id}')">
+            <span class="ov-name">${ov.name}</span>
+            <span class="ov-stock">${availableOverlay} left</span>
+            <span class="ov-stock">${availableCard} left</span>
+            <span class="ov-price">€5</span>
+          </div>
+        `;
+      }).join('');
+}
+
+// --- STOCK CSV ---
+function exportStockCSV() {
+    const c = conv();
+    if(!c) return;
+    const rows = [['Name','Stock','CardStock']];
+    c.overlays.forEach(ov => rows.push([ov.name, ov.stock, ov.cardStock]));
+    downloadCSV(rows, `${c.name.replace(/\s+/g,'_')}_stock.csv`);
+}
+
+function importStockCSV(event){
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        const text = e.target.result.trim();
+        const lines = text.split('\n').map(l => l.split(','));
+        const headers = lines.shift(); // remove header
+        const c = conv();
+        if(!c) return;
+
+        c.overlays = lines.map(l => ({
+            id: 'o'+Date.now()+Math.random().toString(36).substr(2,5),
+            name: l[0],
+            stock: parseInt(l[1]) || 0,
+            cardStock: parseInt(l[2]) || 0
+        }));
+        save(); renderStock(); renderGrid();
+        event.target.value = ''; // reset file input
+    };
+    reader.readAsText(file);
+}
+
+// --- SALES CSV ---
+function exportSalesCSV() {
+    const c = conv();
+    if(!c || !c.sales.length) return;
+    const rows = [['Time','Items','Total','Payment']];
+    c.sales.forEach(sale => {
+        const items = sale.items.map(i => `${i.name} (${i.type}, €${i.price})`).join('|');
+        rows.push([sale.time, items, sale.total, sale.payment]);
+    });
+    downloadCSV(rows, `${c.name.replace(/\s+/g,'_')}_sales.csv`);
+}
+
+// --- HELPER ---
+function downloadCSV(rows, filename) {
+    const csvContent = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n');
+    const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+function openItemModal(id){
+  const c = conv();
+  pendingOv = c.overlays.find(o => o.id === id);
+  if(!pendingOv) return;
+
+  document.getElementById('modal-ov-name').textContent = pendingOv.name;
+
+  // calculate remaining stock considering current order
+  const overlayCount = order.filter(i => i.overlayId === id).length;
+  const cardCount = order.filter(i => i.overlayId === id && i.type === 'overlay+card').length;
+
+  const availableOverlay = Math.max(0, pendingOv.stock - overlayCount);
+  const availableCard = Math.max(0, pendingOv.cardStock - cardCount);
+
+  // build options dynamically
+  let optionsHTML = `
+    <div class="modal-option" onclick="addToOrder('overlay')">
+      <span class="opt-name">Overlay only</span>
+      <span class="opt-price">€5.00</span>
+    </div>
   `;
 
-  const sorted = [...conv.sales].reverse();
-  list.innerHTML = sorted.map(sale => {
-    const d = new Date(sale.time);
-    const time = d.toLocaleTimeString('en', {hour:'2-digit', minute:'2-digit'}) + ' · ' + d.toLocaleDateString('en', {day:'numeric', month:'short'});
-    const itemLines = sale.items.map(i => `${i.overlayName} — ${i.type === 'overlay' ? 'Overlay' : 'Overlay + Card'} (€${i.price})`).join('<br>');
-    return `<div class="sale-card">
-      <div class="sale-card-header">
-        <div>
-          <div class="sale-time">${time}</div>
-          <div style="margin-top:6px"><span class="sale-pay-badge ${sale.payment}">${sale.payment === 'cash' ? '💵 Cash' : '🅿️ PayPal'}</span></div>
-        </div>
-        <div class="sale-total-badge">€${sale.total.toFixed(2)}</div>
+    let style = '';
+    if (availableCard === 0) {
+      style = 'style="opacity: 0.4 !important; pointer-events:none;"';
+    }
+
+    optionsHTML += `
+      <div class="modal-option with-card" ${style} onclick="addToOrder('overlay+card')">
+        <span class="opt-name">Overlay + TCG Card</span>
+        <span class="opt-price">€6.00</span>
       </div>
-      <div class="sale-items">${itemLines}</div>
-    </div>`;
+    `;
+
+  document.querySelector('#item-modal .modal-options').innerHTML = optionsHTML;
+
+  document.getElementById('item-modal').classList.add('open');
+}
+function closeItemModal(){ document.getElementById('item-modal').classList.remove('open'); pendingOv=null; }
+function addToOrder(type){
+  if(!pendingOv) return;
+  order.push({overlayId:pendingOv.id,name:pendingOv.name,type,price:type==='overlay'?5:6});
+  closeItemModal();
+  renderOrderUI();
+  renderGrid();
+}
+
+function renderOrderUI(){
+  const container=document.getElementById('order-container');
+  if(!order.length){ container.innerHTML=`<div class="order-empty">Tap an overlay above to start</div>`; }
+  else { container.innerHTML=`<div class="order-items">${order.map((it,i)=>`<div class="order-item"><div class="order-item-info"><div class="order-item-name">${it.name}</div><div class="order-item-type">${it.type==='overlay'?'Overlay only':'Overlay + TCG Card'}</div></div><span class="order-item-price">€${it.price}.00</span><button class="btn-remove" onclick="removeItem(${i})">×</button></div>`).join('')}</div>`; }
+  const total=order.reduce((s,i)=>s+i.price,0);
+  document.getElementById('order-total').textContent=`€${total.toFixed(2)}`;
+  document.getElementById('btn-complete').disabled=!order.length||!payment;
+  calcChange();
+}
+function removeItem(i){
+  order.splice(i,1);
+  renderOrderUI();
+  renderGrid(); // ← add this
+}
+function clearOrder(){
+  order=[]; payment=null;
+  document.getElementById('given-amount').value='';
+  document.getElementById('pay-cash').className='pay-toggle';
+  document.getElementById('pay-paypal').className='pay-toggle';
+  document.getElementById('change-section').style.display='none';
+  renderOrderUI();
+  renderGrid();
+}
+function setPayment(type){
+  payment = type;
+
+  document.getElementById('pay-cash').className = 'pay-toggle' + (type==='cash' ? ' active-cash' : '');
+  document.getElementById('pay-paypal').className = 'pay-toggle' + (type==='paypal' ? ' active-paypal' : '');
+
+  if(type === 'cash'){
+    openCashModal(); // 👈 NEW
+  } else {
+    document.getElementById('change-section').style.display='none';
+  }
+
+  document.getElementById('btn-complete').disabled = !order.length || !payment;
+}
+function calcChange(){
+  const total=order.reduce((s,i)=>s+i.price,0);
+  const given=parseFloat(document.getElementById('given-amount').value)||0;
+  const el=document.getElementById('change-display');
+  if(!given){ el.textContent='—'; el.className='change-display'; return; }
+  const diff=given-total;
+  el.textContent=(diff<0?'-':'')+'€'+Math.abs(diff).toFixed(2);
+  el.className='change-display '+(diff>=0?'positive':'negative');
+}
+function completeOrder(){
+  if(!order.length||!payment) return;
+  const c=conv(); const total=order.reduce((s,i)=>s+i.price,0);
+  order.forEach(it=>{ const ov=c.overlays.find(o=>o.id===it.overlayId); if(ov){ ov.stock=Math.max(0,ov.stock-1); if(it.type==='overlay+card') ov.cardStock=Math.max(0,(ov.cardStock||0)-1); } });
+  c.sales.push({id:'s'+Date.now(),time:new Date().toISOString(),items:[...order],total,payment});
+  save(); clearOrder(); renderAll();
+}
+
+function openCashModal(){
+  document.getElementById('cash-input').value = '';
+  document.getElementById('cash-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('cash-input').focus(),100);
+}
+
+function closeCashModal(){
+  document.getElementById('cash-modal').classList.remove('open');
+}
+
+function addCash(amount){
+  const input = document.getElementById('cash-input');
+  const current = parseFloat(input.value) || 0;
+  input.value = (current + amount).toFixed(2);
+}
+
+function clearCash(){
+  document.getElementById('cash-input').value = '';
+}
+
+function confirmCash(){
+  const val = document.getElementById('cash-input').value;
+
+  document.getElementById('given-amount').value = val;
+  calcChange();
+
+  document.getElementById('change-section').style.display = 'block';
+
+  closeCashModal();
+}
+
+function renderStock(){
+  const c=conv(), tbody=document.getElementById('stock-tbody');
+  if(!c||!c.overlays.length){ tbody.innerHTML=`<tr><td colspan="3" style="text-align:center;color:var(--text-dimmer);padding:20px;font-size:13px;">No overlays yet</td></tr>`; return; }
+  tbody.innerHTML=c.overlays.map(ov=>`<tr><td><input type="text" value="${ov.name}" onchange="updateName('${ov.id}',this.value)"></td><td><input type="number" value="${ov.stock}" min="0" onchange="updateStock('${ov.id}',this.value)"></td><td><input type="number" value="${ov.cardStock}" min="0" onchange="updateCardStock('${ov.id}',this.value)"></td><td><button class="btn-delete-row" onclick="deleteOverlay('${ov.id}')">✕</button></td></tr>`).join('');
+}
+function addOverlay(){ const c=conv(); c.overlays.push({id:'o'+Date.now(),name:'New Overlay',stock:0,cardStock:0}); save(); renderStock(); renderGrid(); }
+function updateName(id,val){ const ov=conv().overlays.find(o=>o.id===id); if(ov){ov.name=val;save();renderGrid();} }
+function updateStock(id,val){ const ov=conv().overlays.find(o=>o.id===id); if(ov){ov.stock=Math.max(0,parseInt(val)||0);save();renderGrid();} }
+function updateCardStock(id,val){ const ov=conv().overlays.find(o=>o.id===id); if(ov){ov.cardStock=Math.max(0,parseInt(val)||0);save();renderGrid();} }
+function deleteOverlay(id){ const c=conv(); c.overlays=c.overlays.filter(o=>o.id!==id); save(); renderStock(); renderGrid(); }
+function saveStock(){ save(); const btn=document.querySelector('.save-btn'); const orig=btn.textContent; btn.textContent='✓ SAVED'; setTimeout(()=>btn.textContent=orig,1500); }
+
+function renderHistory(){
+  const c=conv(), list=document.getElementById('history-list'), statsEl=document.getElementById('stats-row');
+  if(!c||!c.sales.length){ statsEl.innerHTML=''; list.innerHTML=`<div class="empty-state">No sales yet for this convention</div>`; return; }
+  const total=c.sales.reduce((s,x)=>s+x.total,0);
+  statsEl.innerHTML=`<div class="stat-card"><div class="stat-val">€${total.toFixed(0)}</div><div class="stat-lbl">REVENUE</div></div><div class="stat-card"><div class="stat-val">${c.sales.length}</div><div class="stat-lbl">ORDERS</div></div><div class="stat-card"><div class="stat-val">€${(total/c.sales.length).toFixed(0)}</div><div class="stat-lbl">AVG ORDER</div></div>`;
+  list.innerHTML=[...c.sales].reverse().map(sale=>{
+    const d=new Date(sale.time);
+    const t=d.toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'})+' · '+d.toLocaleDateString('en',{day:'numeric',month:'short'});
+    const lines=sale.items.map(i=>`${i.name} — ${i.type==='overlay'?'Overlay':'Overlay + Card'} (€${i.price})`).join('<br>');
+    return `<div class="sale-card"><div class="sale-header"><div><div class="sale-time">${t}</div><div class="sale-badges"><span class="pay-pill ${sale.payment}">${sale.payment==='cash'?'Cash':'PayPal'}</span></div></div><div class="sale-total">€${sale.total.toFixed(2)}</div></div><div class="sale-items-list">${lines}</div></div>`;
   }).join('');
 }
 
-// ─── NAVIGATION ───────────────────────────────────────────────────────────────
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  event.target.classList.add('active');
-  if (name === 'stock') renderStock();
-  if (name === 'history') renderHistory();
+function showPage(name,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  btn.classList.add('active');
 }
 </script>
 </body>
