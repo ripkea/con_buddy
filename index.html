@@ -27,201 +27,88 @@
   --radius-xs: 7px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
-  font-size: 15px;
-}
-nav {
-  display: flex;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding: 0 4px;
-}
-nav button {
-  flex: 1;
-  padding: 14px 6px 12px;
-  background: none;
-  border: none;
-  border-bottom: 2.5px solid transparent;
-  color: var(--text-dimmer);
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  transition: color 0.18s, border-color 0.18s;
-}
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; font-size: 15px; }
+nav { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; padding: 0 4px; }
+nav button { flex: 1; padding: 14px 6px 12px; background: none; border: none; border-bottom: 2.5px solid transparent; color: var(--text-dimmer); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; cursor: pointer; transition: color 0.18s, border-color 0.18s; }
 nav button.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
 .page { display: none; padding: 16px; padding-bottom: 32px; max-width: 520px; margin: 0 auto; }
 .page.active { display: block; }
-.convention-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-}
-.convention-bar select {
-  flex: 1; background: none; border: none; color: var(--text);
-  font-family: 'DM Mono', monospace; font-size: 12px; cursor: pointer; outline: none; min-width: 0;
-}
+.convention-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; }
+.convention-bar select { flex: 1; background: none; border: none; color: var(--text); font-family: 'DM Mono', monospace; font-size: 12px; cursor: pointer; outline: none; min-width: 0; }
 .convention-bar select option { background: #fff; }
-.btn-icon {
-  background: var(--grad); border: none; color: #fff;
-  font-size: 20px; line-height: 1; cursor: pointer;
-  width: 30px; height: 30px; border-radius: 8px;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 500;
-}
+.btn-icon { background: var(--grad); border: none; color: #fff; font-size: 20px; line-height: 1; cursor: pointer; width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 500; }
 .btn-icon:active { opacity: 0.8; }
-.section-label {
-  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
-  color: var(--text-dimmer); text-transform: uppercase; margin-bottom: 10px; margin-top: 22px;
-}
+.section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--text-dimmer); text-transform: uppercase; margin-bottom: 10px; margin-top: 22px; }
 .section-label:first-child { margin-top: 0; }
 .overlay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 4px; }
-.overlay-btn {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
-  padding: 12px 8px 10px; text-align: center; cursor: pointer;
-  transition: border-color 0.15s, transform 0.1s;
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  min-height: 72px; justify-content: center;
-}
+.overlay-btn { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 8px 10px; text-align: center; cursor: pointer; transition: border-color 0.15s, transform 0.1s; display: flex; flex-direction: column; align-items: center; gap: 4px; min-height: 72px; justify-content: center; }
 .overlay-btn:active { transform: scale(0.95); border-color: var(--teal); }
 .overlay-btn.out-of-stock { opacity: 0.35; pointer-events: none; }
 .overlay-btn .ov-name { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.2; word-break: break-word; }
 .overlay-btn .ov-stock { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dimmer); }
 .overlay-btn .ov-price { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal-dark); font-weight: 500; }
-.modal-backdrop {
-  display: none; position: fixed; inset: 0;
-  background: rgba(28,33,25,0.45); z-index: 200; align-items: flex-end; justify-content: center;
-}
+.overlay-btn.custom-item-btn { border-style: dashed; }
+.modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(28,33,25,0.45); z-index: 200; align-items: flex-end; justify-content: center; }
 .modal-backdrop.open { display: flex; }
-.modal {
-  background: var(--surface); border-radius: var(--radius) var(--radius) 0 0;
-  padding: 20px 18px 32px; width: 100%; max-width: 520px; border-top: 1px solid var(--border);
-}
+.modal { background: var(--surface); border-radius: var(--radius) var(--radius) 0 0; padding: 20px 18px 32px; width: 100%; max-width: 520px; border-top: 1px solid var(--border); }
 .modal-handle { width: 36px; height: 4px; background: var(--border-dark); border-radius: 2px; margin: 0 auto 18px; }
 .modal-ov-name { font-size: 17px; font-weight: 600; text-align: center; margin-bottom: 4px; }
 .modal-sub { font-size: 12px; color: var(--text-dim); text-align: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; }
 .modal-options { display: flex; flex-direction: column; gap: 10px; }
-.modal-option {
-  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm);
-  padding: 16px 18px; display: flex; justify-content: space-between; align-items: center;
-  cursor: pointer; transition: border-color 0.15s, background 0.15s;
-}
+.modal-option { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
 .modal-option:active { background: #d8faf3; border-color: var(--teal); }
 .modal-option.with-card:active { background: #edfce4; border-color: var(--green); }
 .modal-option .opt-name { font-size: 15px; font-weight: 500; }
 .modal-option .opt-price { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--teal-dark); font-weight: 500; }
 .modal-option.with-card .opt-price { color: var(--green-dark); }
-.modal-cancel {
-  margin-top: 12px; width: 100%; padding: 14px; background: none;
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 15px; cursor: pointer;
-}
-.order-empty {
-  text-align: center; color: var(--text-dimmer); font-size: 13px; padding: 22px;
-  border: 1.5px dashed var(--border-dark); border-radius: var(--radius-sm); margin-bottom: 14px; background: var(--surface);
-}
+.modal-cancel { margin-top: 12px; width: 100%; padding: 14px; background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 15px; cursor: pointer; }
+.order-empty { text-align: center; color: var(--text-dimmer); font-size: 13px; padding: 22px; border: 1.5px dashed var(--border-dark); border-radius: var(--radius-sm); margin-bottom: 14px; background: var(--surface); }
 .order-items { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
-.order-item {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
-  padding: 11px 14px; display: flex; align-items: center; gap: 10px;
-}
+.order-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 14px; display: flex; align-items: center; gap: 10px; }
 .order-item-info { flex: 1; min-width: 0; }
 .order-item-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .order-item-type { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
 .order-item-price { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--teal-dark); font-weight: 500; flex-shrink: 0; margin-right: 6px; }
 .btn-remove { background: none; border: none; color: var(--text-dimmer); font-size: 20px; line-height: 1; cursor: pointer; padding: 2px 4px; border-radius: 6px; flex-shrink: 0; }
 .btn-remove:active { color: #c0392b; background: #fdecea; }
-.total-row {
-  background: var(--grad-soft); border: 1px solid #bfeddc; border-radius: var(--radius-sm);
-  padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
-}
+.total-row { background: var(--grad-soft); border: 1px solid #bfeddc; border-radius: var(--radius-sm); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .total-label { font-size: 13px; color: var(--teal-dark); font-weight: 500; }
 .total-amount { font-family: 'DM Mono', monospace; font-size: 24px; font-weight: 500; color: var(--teal-dark); }
 .payment-row { display: flex; gap: 8px; margin-bottom: 12px; }
-.pay-toggle {
-  flex: 1; padding: 13px 8px; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text-dim); font-family: 'DM Sans', sans-serif;
-  font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; text-align: center;
-}
+.pay-toggle { flex: 1; padding: 13px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; text-align: center; }
 .pay-toggle.active-cash { background: #edfce4; border-color: var(--green); color: var(--green-dark); }
 .pay-toggle.active-paypal { background: #d8faf3; border-color: var(--teal); color: var(--teal-dark); }
-.change-row {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 12px;
-}
+.change-row { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 12px; }
 .change-row label { display: block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--text-dimmer); margin-bottom: 10px; }
 .change-input-row { display: flex; align-items: center; gap: 12px; }
-.change-row input {
-  flex: 1; background: var(--surface2); border: 1px solid var(--border);
-  border-radius: var(--radius-xs); padding: 10px 12px; color: var(--text);
-  font-family: 'DM Mono', monospace; font-size: 17px; outline: none; min-width: 0;
-}
+.change-row input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 12px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 17px; outline: none; min-width: 0; }
 .change-row input:focus { border-color: var(--teal); }
 .change-display { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; min-width: 90px; text-align: right; flex-shrink: 0; color: var(--text-dimmer); }
 .change-display.positive { color: var(--teal-dark); }
 .change-display.negative { color: #c0392b; }
-.btn-complete {
-  width: 100%; padding: 17px; background: var(--grad); border: none;
-  border-radius: var(--radius-sm); color: #fff; font-family: 'DM Mono', monospace;
-  font-size: 13px; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; margin-bottom: 8px; transition: opacity 0.15s;
-}
+.btn-complete { width: 100%; padding: 17px; background: var(--grad); border: none; border-radius: var(--radius-sm); color: #fff; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; cursor: pointer; margin-bottom: 8px; transition: opacity 0.15s; }
 .btn-complete:active { opacity: 0.85; }
 .btn-complete:disabled { opacity: 0.28; pointer-events: none; }
-.btn-secondary {
-  width: 100%; padding: 12px; background: none; border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer;
-}
+.btn-secondary { width: 100%; padding: 12px; background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; }
 .btn-secondary:active { background: var(--surface2); }
 .stock-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .stock-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.stock-table th {
-  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.09em;
-  color: var(--text-dimmer); text-align: left; padding: 10px 12px;
-  border-bottom: 1px solid var(--border); background: var(--surface2); font-weight: 400;
-}
+.stock-table th { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.09em; color: var(--text-dimmer); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface2); font-weight: 400; }
 .stock-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
 .stock-table tr:last-child td { border-bottom: none; }
-.stock-table input[type="text"] {
-  background: none; border: none; color: var(--text); font-family: 'DM Sans', sans-serif;
-  font-size: 13px; font-weight: 500; width: 100%; outline: none; padding: 4px 0; border-bottom: 1px solid transparent;
-}
+.stock-table input[type="text"] { background: none; border: none; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; width: 100%; outline: none; padding: 4px 0; border-bottom: 1px solid transparent; }
 .stock-table input[type="text"]:focus { border-bottom-color: var(--teal); }
-.stock-table input[type="number"] {
-  background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-xs);
-  padding: 6px 8px; color: var(--text); font-family: 'DM Mono', monospace;
-  font-size: 13px; width: 58px; text-align: center; outline: none;
-}
+.stock-table input[type="number"] { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 6px 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 13px; width: 58px; text-align: center; outline: none; }
 .stock-table input[type="number"]:focus { border-color: var(--teal); }
 .btn-delete-row { background: none; border: none; color: var(--text-dimmer); cursor: pointer; font-size: 15px; line-height: 1; padding: 4px 6px; border-radius: 5px; }
 .btn-delete-row:active { background: #fdecea; color: #c0392b; }
-.btn-add-row {
-  width: 100%; margin-top: 10px; padding: 13px; background: none;
-  border: 1.5px dashed var(--border-dark); border-radius: var(--radius-sm);
-  color: var(--teal-dark); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; cursor: pointer;
-}
+.btn-add-row { width: 100%; margin-top: 10px; padding: 13px; background: none; border: 1.5px dashed var(--border-dark); border-radius: var(--radius-sm); color: var(--teal-dark); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; cursor: pointer; }
 .btn-add-row:active { background: var(--surface); }
-.save-btn {
-  width: 100%; margin-top: 10px; padding: 14px; background: var(--grad); border: none;
-  border-radius: var(--radius-sm); color: #fff; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em; cursor: pointer;
-}
+.save-btn { width: 100%; margin-top: 10px; padding: 14px; background: var(--grad); border: none; border-radius: var(--radius-sm); color: #fff; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em; cursor: pointer; }
 .save-btn:active { opacity: 0.85; }
 .stats-row { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-bottom: 20px; }
 .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 10px; text-align: center; }
-.stat-val {
-  font-family: 'DM Mono', monospace; font-size: 19px; font-weight: 500;
-  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
+.stat-val { font-family: 'DM Mono', monospace; font-size: 19px; font-weight: 500; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .stat-lbl { font-size: 10px; color: var(--text-dimmer); margin-top: 3px; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
 .sale-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 9px; }
 .sale-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
@@ -233,21 +120,30 @@ nav button.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
 .sale-total { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--teal-dark); }
 .sale-items-list { font-size: 12px; color: var(--text-dim); line-height: 1.9; border-top: 1px solid var(--border); padding-top: 10px; }
 .empty-state { text-align: center; color: var(--text-dimmer); font-size: 13px; padding: 40px 20px; }
-.conv-backdrop {
-  display: none; position: fixed; inset: 0;
-  background: rgba(28,33,25,0.45); z-index: 200; align-items: center; justify-content: center; padding: 20px;
-}
+.conv-backdrop { display: none; position: fixed; inset: 0; background: rgba(28,33,25,0.45); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
 .conv-backdrop.open { display: flex; }
 .conv-modal { background: var(--surface); border-radius: var(--radius); padding: 24px 20px; width: 100%; max-width: 360px; border: 1px solid var(--border); }
 .conv-modal h3 { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 14px; }
-.conv-modal input {
-  width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-xs);
-  padding: 13px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; margin-bottom: 14px;
-}
+.conv-modal input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 13px 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; margin-bottom: 14px; }
 .conv-modal input:focus { border-color: var(--teal); }
 .conv-modal-btns { display: flex; gap: 8px; }
 .btn-confirm { flex: 1; padding: 13px; background: var(--grad); border: none; border-radius: var(--radius-xs); color: #fff; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em; cursor: pointer; }
 .btn-cancel-modal { flex: 1; padding: 13px; background: none; border: 1px solid var(--border); border-radius: var(--radius-xs); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; }
+.price-config { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; }
+.price-config-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.price-config-row:last-child { margin-bottom: 0; }
+.price-config-label { flex: 1; font-size: 13px; color: var(--text-dim); }
+.price-config-input { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 8px 10px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; width: 80px; text-align: right; outline: none; }
+.price-config-input:focus { border-color: var(--teal); }
+.custom-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-top: 14px; }
+.custom-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.custom-table th { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.09em; color: var(--text-dimmer); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface2); font-weight: 400; }
+.custom-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.custom-table tr:last-child td { border-bottom: none; }
+.custom-table input[type="text"] { background: none; border: none; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; width: 100%; outline: none; padding: 4px 0; border-bottom: 1px solid transparent; }
+.custom-table input[type="text"]:focus { border-bottom-color: var(--teal); }
+.custom-table input[type="number"] { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 6px 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 13px; width: 68px; text-align: center; outline: none; }
+.custom-table input[type="number"]:focus { border-color: var(--teal); }
 </style>
 </head>
 <body>
@@ -265,6 +161,8 @@ nav button.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
   </div>
   <div class="section-label">Overlays</div>
   <div class="overlay-grid" id="overlay-grid"></div>
+  <div class="section-label">Custom Items</div>
+  <div class="overlay-grid" id="custom-grid"></div>
   <div class="section-label">Current Order</div>
   <div id="order-container"></div>
   <div class="total-row">
@@ -290,86 +188,90 @@ nav button.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
   <div class="convention-bar">
     <select id="conv-select-stock" onchange="switchConv('conv-select-stock')"></select>
   </div>
+
+  <div class="section-label">Pricing</div>
+  <div class="price-config">
+    <div class="price-config-row">
+      <span class="price-config-label">Overlay only price</span>
+      <input type="number" class="price-config-input" id="price-overlay" min="0" step="0.50" placeholder="5.00" onchange="updatePrice('overlayPrice',this.value)">
+    </div>
+    <div class="price-config-row">
+      <span class="price-config-label">Overlay + TCG Card price</span>
+      <input type="number" class="price-config-input" id="price-card" min="0" step="0.50" placeholder="6.00" onchange="updatePrice('cardPrice',this.value)">
+    </div>
+  </div>
+
   <div class="section-label">Overlay Stock</div>
   <div class="stock-wrap">
     <table class="stock-table">
-      <thead><tr><th style="width:auto">Name</th><th style="width:80px">Stock</th><th style="width:80px">CardStock</th><th style="width:44px"></th></tr></thead>
+      <thead><tr><th style="width:auto">Name</th><th style="width:72px">Stock</th><th style="width:72px">CardStock</th><th style="width:44px"></th></tr></thead>
       <tbody id="stock-tbody"></tbody>
     </table>
   </div>
   <button class="btn-add-row" onclick="addOverlay()">+ ADD OVERLAY</button>
+
+  <div class="section-label">Custom Items</div>
+  <div class="custom-wrap">
+    <table class="custom-table">
+      <thead><tr><th style="width:auto">Name</th><th style="width:72px">Price (€)</th><th style="width:72px">Stock</th><th style="width:44px"></th></tr></thead>
+      <tbody id="custom-tbody"></tbody>
+    </table>
+  </div>
+  <button class="btn-add-row" onclick="addCustomItem()">+ ADD CUSTOM ITEM</button>
+
   <button class="save-btn" onclick="saveStock()">SAVE STOCK</button>
-    <!-- In the Stock page, below SAVE STOCK -->
-<button class="save-btn" onclick="exportStockCSV()">EXPORT STOCK CSV</button>
-<input type="file" id="import-stock-file" accept=".csv" style="display:none" onchange="importStockCSV(event)">
+  <button class="save-btn" onclick="exportStockCSV()">EXPORT STOCK CSV</button>
+  <input type="file" id="import-stock-file" accept=".csv" style="display:none" onchange="importStockCSV(event)">
 </div>
 
 <div class="page" id="page-history">
   <div class="convention-bar">
     <select id="conv-select-history" onchange="switchConv('conv-select-history')"></select>
   </div>
-    <button class="save-btn" style="margin-bottom: 12px" onclick="exportSalesCSV()">EXPORT SALES CSV</button>
+  <button class="save-btn" style="margin-bottom: 12px" onclick="exportSalesCSV()">EXPORT SALES CSV</button>
   <div class="stats-row" id="stats-row"></div>
   <div class="section-label">Sales Log</div>
   <div id="history-list"></div>
 </div>
 
+<!-- Overlay item modal -->
 <div class="modal-backdrop" id="item-modal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-ov-name" id="modal-ov-name"></div>
     <div class="modal-sub">Choose type</div>
-    <div class="modal-options">
-      <div class="modal-option" onclick="addToOrder('overlay')">
-        <span class="opt-name">Overlay only</span>
-        <span class="opt-price">€5.00</span>
-      </div>
-      <div class="modal-option with-card" onclick="addToOrder('overlay+card')">
-        <span class="opt-name">Overlay + TCG Card</span>
-        <span class="opt-price">€6.00</span>
-      </div>
-    </div>
+    <div class="modal-options" id="modal-options-container"></div>
     <button class="modal-cancel" onclick="closeItemModal()">Cancel</button>
   </div>
 </div>
 
+<!-- Cash modal -->
 <div class="modal-backdrop" id="cash-modal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-ov-name">Enter Cash</div>
     <div class="modal-sub">Customer payment</div>
-
     <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px;">
-
       <div style="grid-column: span 4;">
         <input type="number" id="cash-input" placeholder="0.00" step="0.50" min="0"
           style="width:100%;padding:16px;font-size:20px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);font-family:'DM Mono', monospace;">
       </div>
-
-      <button class="modal-option" style="font-size:19px;" onclick="clearCash()">
-        Clear
-      </button>
-
+      <button class="modal-option" style="font-size:15px;" onclick="clearCash()">Clear</button>
     </div>
-
-    <!-- Quick buttons (mobile friendly) -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
       <button class="modal-option" onclick="addCash(5)">€5</button>
       <button class="modal-option" onclick="addCash(10)">€10</button>
       <button class="modal-option" onclick="addCash(20)">€20</button>
       <button class="modal-option" onclick="addCash(50)">€50</button>
     </div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;">
-              <button class="modal-cancel" onclick="closeCashModal()">Cancel</button>
-
-        <button class="modal-option save-btn" style="font-size: 19px !important; margin-top: 12px" onclick="confirmCash()">Confirm</button>
-
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;">
+      <button class="modal-cancel" onclick="closeCashModal()">Cancel</button>
+      <button class="modal-option save-btn" style="font-size:16px;margin-top:12px" onclick="confirmCash()">Confirm</button>
     </div>
-
-
   </div>
 </div>
 
+<!-- Convention modal -->
 <div class="conv-backdrop" id="conv-modal">
   <div class="conv-modal">
     <h3>NEW CONVENTION</h3>
@@ -382,281 +284,368 @@ nav button.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
 </div>
 
 <script>
-let state = (()=>{ try { return JSON.parse(localStorage.getItem('cs2'))||{conventions:[],active:null}; } catch { return {conventions:[],active:null}; } })();
-let order=[], payment=null, pendingOv=null;
-
-function save(){ localStorage.setItem('cs2', JSON.stringify(state)); }
-function conv(){ return state.conventions.find(c=>c.id===state.active); }
-
-window.onload=()=>{ if(!state.conventions.length) addConvData('My First Convention'); renderAll(); };
-
-function renderAll(){ fillSelects(); renderGrid(); renderOrderUI(); renderStock(); renderHistory(); }
-
-function addConvData(name){
-  const id='c'+Date.now();
-  state.conventions.push({id,name,overlays:[],sales:[]});
-  state.active=id; save();
+// --- Migration: upgrade old cs2 data to new format ---
+function migrateState(s) {
+  if (!s) return { conventions: [], active: null };
+  if (!s.conventions) s.conventions = [];
+  if (!('active' in s)) s.active = null;
+  s.conventions.forEach(c => {
+    // Ensure pricing fields exist
+    if (!('overlayPrice' in c)) c.overlayPrice = 5;
+    if (!('cardPrice' in c)) c.cardPrice = 6;
+    // Ensure customItems array exists
+    if (!c.customItems) c.customItems = [];
+    c.customItems.forEach(ci => { if (!('stock' in ci)) ci.stock = 0; });
+    // Ensure overlays have cardStock
+    if (c.overlays) c.overlays.forEach(ov => {
+      if (!('cardStock' in ov)) ov.cardStock = 0;
+    });
+  });
+  return s;
 }
-function fillSelects(){
-  ['conv-select','conv-select-stock','conv-select-history'].forEach(id=>{
-    const el=document.getElementById(id); if(!el) return;
-    el.innerHTML=state.conventions.map(c=>`<option value="${c.id}"${c.id===state.active?' selected':''}>${c.name}</option>`).join('');
+
+let state = (() => {
+  try { return migrateState(JSON.parse(localStorage.getItem('cs2'))); }
+  catch { return { conventions: [], active: null }; }
+})();
+
+let order = [], payment = null, pendingOv = null;
+
+function save() { localStorage.setItem('cs2', JSON.stringify(state)); }
+function conv() { return state.conventions.find(c => c.id === state.active); }
+
+window.onload = () => {
+  if (!state.conventions.length) addConvData('My First Convention');
+  renderAll();
+};
+
+function renderAll() { fillSelects(); renderGrid(); renderCustomGrid(); renderOrderUI(); renderStock(); renderHistory(); renderPricing(); }
+
+function addConvData(name) {
+  const id = 'c' + Date.now();
+  state.conventions.push({ id, name, overlays: [], customItems: [], sales: [], overlayPrice: 5, cardPrice: 6 });
+  state.active = id; save();
+}
+
+function fillSelects() {
+  ['conv-select', 'conv-select-stock', 'conv-select-history'].forEach(id => {
+    const el = document.getElementById(id); if (!el) return;
+    el.innerHTML = state.conventions.map(c => `<option value="${c.id}"${c.id === state.active ? ' selected' : ''}>${c.name}</option>`).join('');
   });
 }
-function switchConvention(){ state.active=document.getElementById('conv-select').value; order=[]; payment=null; save(); renderAll(); }
-function switchConv(sel){ state.active=document.getElementById(sel).value; save(); renderAll(); }
-function openConvModal(){ document.getElementById('conv-name-input').value=''; document.getElementById('conv-modal').classList.add('open'); setTimeout(()=>document.getElementById('conv-name-input').focus(),120); }
-function closeConvModal(){ document.getElementById('conv-modal').classList.remove('open'); }
-function createConvention(){
-  const name=document.getElementById('conv-name-input').value.trim(); if(!name) return;
-  addConvData(name); closeConvModal(); order=[]; payment=null; renderAll();
+
+function switchConvention() { state.active = document.getElementById('conv-select').value; order = []; payment = null; save(); renderAll(); }
+function switchConv(sel) { state.active = document.getElementById(sel).value; save(); renderAll(); }
+function openConvModal() { document.getElementById('conv-name-input').value = ''; document.getElementById('conv-modal').classList.add('open'); setTimeout(() => document.getElementById('conv-name-input').focus(), 120); }
+function closeConvModal() { document.getElementById('conv-modal').classList.remove('open'); }
+function createConvention() {
+  const name = document.getElementById('conv-name-input').value.trim(); if (!name) return;
+  addConvData(name); closeConvModal(); order = []; payment = null; renderAll();
 }
 
-function renderGrid(){
+function getOverlayPrice() { const c = conv(); return c ? (c.overlayPrice || 5) : 5; }
+function getCardPrice() { const c = conv(); return c ? (c.cardPrice || 6) : 6; }
+
+function renderPricing() {
+  const c = conv(); if (!c) return;
+  document.getElementById('price-overlay').value = c.overlayPrice ?? 5;
+  document.getElementById('price-card').value = c.cardPrice ?? 6;
+}
+
+function updatePrice(field, val) {
+  const c = conv(); if (!c) return;
+  c[field] = Math.max(0, parseFloat(val) || 0);
+  save(); renderGrid();
+}
+
+// --- Overlay grid ---
+function renderGrid() {
   const c = conv(), grid = document.getElementById('overlay-grid');
-  if(!c || !c.overlays.length){
+  if (!c || !c.overlays.length) {
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-dimmer);font-size:12px;padding:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm)">Add overlays in the Stock tab</div>`;
     return;
   }
-
-    grid.innerHTML = [...c.overlays]
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map(ov => {
-        // count items already in order
-        const overlayCount = order.filter(i => i.overlayId === ov.id).length;
-        const cardCount = order.filter(i => i.overlayId === ov.id && i.type === 'overlay+card').length;
-
-        const availableOverlay = Math.max(0, ov.stock - overlayCount);
-        const availableCard = Math.max(0, ov.cardStock - cardCount);
-
-        return `
-          <div class="overlay-btn${availableOverlay <= 0 ? ' out-of-stock' : ''}" onclick="openItemModal('${ov.id}')">
-            <span class="ov-name">${ov.name}</span>
-            <span class="ov-stock">${availableOverlay} left</span>
-            <span class="ov-stock">${availableCard} left</span>
-            <span class="ov-price">€5</span>
-          </div>
-        `;
-      }).join('');
-}
-
-// --- STOCK CSV ---
-function exportStockCSV() {
-    const c = conv();
-    if(!c) return;
-    const rows = [['Name','Stock','CardStock']];
-    c.overlays.forEach(ov => rows.push([ov.name, ov.stock, ov.cardStock]));
-    downloadCSV(rows, `${c.name.replace(/\s+/g,'_')}_stock.csv`);
-}
-
-function importStockCSV(event){
-    const file = event.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-        const text = e.target.result.trim();
-        const lines = text.split('\n').map(l => l.split(','));
-        const headers = lines.shift(); // remove header
-        const c = conv();
-        if(!c) return;
-
-        c.overlays = lines.map(l => ({
-            id: 'o'+Date.now()+Math.random().toString(36).substr(2,5),
-            name: l[0],
-            stock: parseInt(l[1]) || 0,
-            cardStock: parseInt(l[2]) || 0
-        }));
-        save(); renderStock(); renderGrid();
-        event.target.value = ''; // reset file input
-    };
-    reader.readAsText(file);
-}
-
-// --- SALES CSV ---
-function exportSalesCSV() {
-    const c = conv();
-    if(!c || !c.sales.length) return;
-    const rows = [['Time','Items','Total','Payment']];
-    c.sales.forEach(sale => {
-        const items = sale.items.map(i => `${i.name} (${i.type}, €${i.price})`).join('|');
-        rows.push([sale.time, items, sale.total, sale.payment]);
-    });
-    downloadCSV(rows, `${c.name.replace(/\s+/g,'_')}_sales.csv`);
-}
-
-// --- HELPER ---
-function downloadCSV(rows, filename) {
-    const csvContent = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n');
-    const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a); URL.revokeObjectURL(url);
-}
-
-function openItemModal(id){
-  const c = conv();
-  pendingOv = c.overlays.find(o => o.id === id);
-  if(!pendingOv) return;
-
-  document.getElementById('modal-ov-name').textContent = pendingOv.name;
-
-  // calculate remaining stock considering current order
-  const overlayCount = order.filter(i => i.overlayId === id).length;
-  const cardCount = order.filter(i => i.overlayId === id && i.type === 'overlay+card').length;
-
-  const availableOverlay = Math.max(0, pendingOv.stock - overlayCount);
-  const availableCard = Math.max(0, pendingOv.cardStock - cardCount);
-
-  // build options dynamically
-  let optionsHTML = `
-    <div class="modal-option" onclick="addToOrder('overlay')">
-      <span class="opt-name">Overlay only</span>
-      <span class="opt-price">€5.00</span>
-    </div>
-  `;
-
-    let style = '';
-    if (availableCard === 0) {
-      style = 'style="opacity: 0.4 !important; pointer-events:none;"';
-    }
-
-    optionsHTML += `
-      <div class="modal-option with-card" ${style} onclick="addToOrder('overlay+card')">
-        <span class="opt-name">Overlay + TCG Card</span>
-        <span class="opt-price">€6.00</span>
-      </div>
-    `;
-
-  document.querySelector('#item-modal .modal-options').innerHTML = optionsHTML;
-
-  document.getElementById('item-modal').classList.add('open');
-}
-function closeItemModal(){ document.getElementById('item-modal').classList.remove('open'); pendingOv=null; }
-function addToOrder(type){
-  if(!pendingOv) return;
-  order.push({overlayId:pendingOv.id,name:pendingOv.name,type,price:type==='overlay'?5:6});
-  closeItemModal();
-  renderOrderUI();
-  renderGrid();
-}
-
-function renderOrderUI(){
-  const container=document.getElementById('order-container');
-  if(!order.length){ container.innerHTML=`<div class="order-empty">Tap an overlay above to start</div>`; }
-  else { container.innerHTML=`<div class="order-items">${order.map((it,i)=>`<div class="order-item"><div class="order-item-info"><div class="order-item-name">${it.name}</div><div class="order-item-type">${it.type==='overlay'?'Overlay only':'Overlay + TCG Card'}</div></div><span class="order-item-price">€${it.price}.00</span><button class="btn-remove" onclick="removeItem(${i})">×</button></div>`).join('')}</div>`; }
-  const total=order.reduce((s,i)=>s+i.price,0);
-  document.getElementById('order-total').textContent=`€${total.toFixed(2)}`;
-  document.getElementById('btn-complete').disabled=!order.length||!payment;
-  calcChange();
-}
-function removeItem(i){
-  order.splice(i,1);
-  renderOrderUI();
-  renderGrid(); // ← add this
-}
-function clearOrder(){
-  order=[]; payment=null;
-  document.getElementById('given-amount').value='';
-  document.getElementById('pay-cash').className='pay-toggle';
-  document.getElementById('pay-paypal').className='pay-toggle';
-  document.getElementById('change-section').style.display='none';
-  renderOrderUI();
-  renderGrid();
-}
-function setPayment(type){
-  payment = type;
-
-  document.getElementById('pay-cash').className = 'pay-toggle' + (type==='cash' ? ' active-cash' : '');
-  document.getElementById('pay-paypal').className = 'pay-toggle' + (type==='paypal' ? ' active-paypal' : '');
-
-  if(type === 'cash'){
-    openCashModal(); // 👈 NEW
-  } else {
-    document.getElementById('change-section').style.display='none';
-  }
-
-  document.getElementById('btn-complete').disabled = !order.length || !payment;
-}
-function calcChange(){
-  const total=order.reduce((s,i)=>s+i.price,0);
-  const given=parseFloat(document.getElementById('given-amount').value)||0;
-  const el=document.getElementById('change-display');
-  if(!given){ el.textContent='—'; el.className='change-display'; return; }
-  const diff=given-total;
-  el.textContent=(diff<0?'-':'')+'€'+Math.abs(diff).toFixed(2);
-  el.className='change-display '+(diff>=0?'positive':'negative');
-}
-function completeOrder(){
-  if(!order.length||!payment) return;
-  const c=conv(); const total=order.reduce((s,i)=>s+i.price,0);
-  order.forEach(it=>{ const ov=c.overlays.find(o=>o.id===it.overlayId); if(ov){ ov.stock=Math.max(0,ov.stock-1); if(it.type==='overlay+card') ov.cardStock=Math.max(0,(ov.cardStock||0)-1); } });
-  c.sales.push({id:'s'+Date.now(),time:new Date().toISOString(),items:[...order],total,payment});
-  save(); clearOrder(); renderAll();
-}
-
-function openCashModal(){
-  document.getElementById('cash-input').value = '';
-  document.getElementById('cash-modal').classList.add('open');
-  setTimeout(()=>document.getElementById('cash-input').focus(),100);
-}
-
-function closeCashModal(){
-  document.getElementById('cash-modal').classList.remove('open');
-}
-
-function addCash(amount){
-  const input = document.getElementById('cash-input');
-  const current = parseFloat(input.value) || 0;
-  input.value = (current + amount).toFixed(2);
-}
-
-function clearCash(){
-  document.getElementById('cash-input').value = '';
-}
-
-function confirmCash(){
-  const val = document.getElementById('cash-input').value;
-
-  document.getElementById('given-amount').value = val;
-  calcChange();
-
-  document.getElementById('change-section').style.display = 'block';
-
-  closeCashModal();
-}
-
-function renderStock(){
-  const c=conv(), tbody=document.getElementById('stock-tbody');
-  if(!c||!c.overlays.length){ tbody.innerHTML=`<tr><td colspan="3" style="text-align:center;color:var(--text-dimmer);padding:20px;font-size:13px;">No overlays yet</td></tr>`; return; }
-  tbody.innerHTML=c.overlays.map(ov=>`<tr><td><input type="text" value="${ov.name}" onchange="updateName('${ov.id}',this.value)"></td><td><input type="number" value="${ov.stock}" min="0" onchange="updateStock('${ov.id}',this.value)"></td><td><input type="number" value="${ov.cardStock}" min="0" onchange="updateCardStock('${ov.id}',this.value)"></td><td><button class="btn-delete-row" onclick="deleteOverlay('${ov.id}')">✕</button></td></tr>`).join('');
-}
-function addOverlay(){ const c=conv(); c.overlays.push({id:'o'+Date.now(),name:'New Overlay',stock:0,cardStock:0}); save(); renderStock(); renderGrid(); }
-function updateName(id,val){ const ov=conv().overlays.find(o=>o.id===id); if(ov){ov.name=val;save();renderGrid();} }
-function updateStock(id,val){ const ov=conv().overlays.find(o=>o.id===id); if(ov){ov.stock=Math.max(0,parseInt(val)||0);save();renderGrid();} }
-function updateCardStock(id,val){ const ov=conv().overlays.find(o=>o.id===id); if(ov){ov.cardStock=Math.max(0,parseInt(val)||0);save();renderGrid();} }
-function deleteOverlay(id){ const c=conv(); c.overlays=c.overlays.filter(o=>o.id!==id); save(); renderStock(); renderGrid(); }
-function saveStock(){ save(); const btn=document.querySelector('.save-btn'); const orig=btn.textContent; btn.textContent='✓ SAVED'; setTimeout(()=>btn.textContent=orig,1500); }
-
-function renderHistory(){
-  const c=conv(), list=document.getElementById('history-list'), statsEl=document.getElementById('stats-row');
-  if(!c||!c.sales.length){ statsEl.innerHTML=''; list.innerHTML=`<div class="empty-state">No sales yet for this convention</div>`; return; }
-  const total=c.sales.reduce((s,x)=>s+x.total,0);
-  statsEl.innerHTML=`<div class="stat-card"><div class="stat-val">€${total.toFixed(0)}</div><div class="stat-lbl">REVENUE</div></div><div class="stat-card"><div class="stat-val">${c.sales.length}</div><div class="stat-lbl">ORDERS</div></div><div class="stat-card"><div class="stat-val">€${(total/c.sales.length).toFixed(0)}</div><div class="stat-lbl">AVG ORDER</div></div>`;
-  list.innerHTML=[...c.sales].reverse().map(sale=>{
-    const d=new Date(sale.time);
-    const t=d.toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'})+' · '+d.toLocaleDateString('en',{day:'numeric',month:'short'});
-    const lines=sale.items.map(i=>`${i.name} — ${i.type==='overlay'?'Overlay':'Overlay + Card'} (€${i.price})`).join('<br>');
-    return `<div class="sale-card"><div class="sale-header"><div><div class="sale-time">${t}</div><div class="sale-badges"><span class="pay-pill ${sale.payment}">${sale.payment==='cash'?'Cash':'PayPal'}</span></div></div><div class="sale-total">€${sale.total.toFixed(2)}</div></div><div class="sale-items-list">${lines}</div></div>`;
+  const op = getOverlayPrice();
+  grid.innerHTML = [...c.overlays].sort((a, b) => a.name.localeCompare(b.name)).map(ov => {
+    const overlayCount = order.filter(i => i.overlayId === ov.id).length;
+    const available = Math.max(0, ov.stock - overlayCount);
+    const cardCount = order.filter(i => i.overlayId === ov.id && i.type === 'overlay+card').length;
+    const availableCard = Math.max(0, (ov.cardStock || 0) - cardCount);
+    return `<div class="overlay-btn${available <= 0 ? ' out-of-stock' : ''}" onclick="openItemModal('${ov.id}')">
+      <span class="ov-name">${ov.name}</span>
+      <span class="ov-stock">${available} left</span>
+      <span class="ov-stock">${availableCard} card</span>
+      <span class="ov-price">€${op.toFixed(2)}</span>
+    </div>`;
   }).join('');
 }
 
-function showPage(name,btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
+// --- Custom items grid ---
+function renderCustomGrid() {
+  const c = conv(), grid = document.getElementById('custom-grid');
+  if (!c || !c.customItems || !c.customItems.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-dimmer);font-size:12px;padding:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm)">Add custom items in the Stock tab</div>`;
+    return;
+  }
+  grid.innerHTML = [...c.customItems].sort((a, b) => a.name.localeCompare(b.name)).map(ci => {
+    const inOrder = order.filter(i => i.customItemId === ci.id).length;
+    const available = ci.stock === 0 ? Infinity : Math.max(0, ci.stock - inOrder);
+    const oos = available <= 0;
+    return `
+      <div class="overlay-btn custom-item-btn${oos ? ' out-of-stock' : ''}" onclick="addCustomToOrder('${ci.id}')">
+        <span class="ov-name">${ci.name}</span>
+        ${ci.stock > 0 ? `<span class="ov-stock">${available} left</span>` : ''}
+        <span class="ov-price">€${(ci.price || 0).toFixed(2)}</span>
+      </div>`;
+  }).join('');
+}
+
+// --- Item modal (overlays) ---
+function openItemModal(id) {
+  const c = conv();
+  pendingOv = c.overlays.find(o => o.id === id);
+  if (!pendingOv) return;
+  document.getElementById('modal-ov-name').textContent = pendingOv.name;
+
+  const overlayCount = order.filter(i => i.overlayId === id).length;
+  const cardCount = order.filter(i => i.overlayId === id && i.type === 'overlay+card').length;
+  const availableCard = Math.max(0, (pendingOv.cardStock || 0) - cardCount);
+
+  const op = getOverlayPrice(), cp = getCardPrice();
+  const cardStyle = availableCard === 0 ? 'style="opacity:0.4;pointer-events:none;"' : '';
+
+  document.getElementById('modal-options-container').innerHTML = `
+    <div class="modal-option" onclick="addToOrder('overlay')">
+      <span class="opt-name">Overlay only</span>
+      <span class="opt-price">€${op.toFixed(2)}</span>
+    </div>
+    <div class="modal-option with-card" ${cardStyle} onclick="addToOrder('overlay+card')">
+      <span class="opt-name">Overlay + TCG Card</span>
+      <span class="opt-price">€${cp.toFixed(2)}</span>
+    </div>`;
+
+  document.getElementById('item-modal').classList.add('open');
+}
+
+function closeItemModal() { document.getElementById('item-modal').classList.remove('open'); pendingOv = null; }
+
+function addToOrder(type) {
+  if (!pendingOv) return;
+  const price = type === 'overlay' ? getOverlayPrice() : getCardPrice();
+  order.push({ overlayId: pendingOv.id, name: pendingOv.name, type, price });
+  closeItemModal(); renderOrderUI(); renderGrid();
+}
+
+function addCustomToOrder(id) {
+  const c = conv();
+  const ci = c.customItems.find(x => x.id === id);
+  if (!ci) return;
+  if (ci.stock > 0) {
+    const inOrder = order.filter(i => i.customItemId === id).length;
+    if (inOrder >= ci.stock) return;
+  }
+  order.push({ customItemId: ci.id, name: ci.name, type: 'custom', price: ci.price || 0 });
+  renderOrderUI(); renderCustomGrid();
+}
+
+// --- Order UI ---
+function renderOrderUI() {
+  const container = document.getElementById('order-container');
+  if (!order.length) { container.innerHTML = `<div class="order-empty">Tap an overlay or custom item above to start</div>`; }
+  else {
+    container.innerHTML = `<div class="order-items">${order.map((it, i) => `
+      <div class="order-item">
+        <div class="order-item-info">
+          <div class="order-item-name">${it.name}</div>
+          <div class="order-item-type">${it.type === 'overlay' ? 'Overlay only' : it.type === 'overlay+card' ? 'Overlay + TCG Card' : 'Custom item'}</div>
+        </div>
+        <span class="order-item-price">€${it.price.toFixed(2)}</span>
+        <button class="btn-remove" onclick="removeItem(${i})">×</button>
+      </div>`).join('')}</div>`;
+  }
+  const total = order.reduce((s, i) => s + i.price, 0);
+  document.getElementById('order-total').textContent = `€${total.toFixed(2)}`;
+  document.getElementById('btn-complete').disabled = !order.length || !payment;
+  calcChange();
+}
+
+function removeItem(i) { order.splice(i, 1); renderOrderUI(); renderGrid(); renderCustomGrid(); }
+function clearOrder() {
+  order = []; payment = null;
+  document.getElementById('given-amount').value = '';
+  document.getElementById('pay-cash').className = 'pay-toggle';
+  document.getElementById('pay-paypal').className = 'pay-toggle';
+  document.getElementById('change-section').style.display = 'none';
+  renderOrderUI(); renderGrid(); renderCustomGrid();
+}
+
+function setPayment(type) {
+  payment = type;
+  document.getElementById('pay-cash').className = 'pay-toggle' + (type === 'cash' ? ' active-cash' : '');
+  document.getElementById('pay-paypal').className = 'pay-toggle' + (type === 'paypal' ? ' active-paypal' : '');
+  if (type === 'cash') { openCashModal(); }
+  else { document.getElementById('change-section').style.display = 'none'; }
+  document.getElementById('btn-complete').disabled = !order.length || !payment;
+}
+
+function calcChange() {
+  const total = order.reduce((s, i) => s + i.price, 0);
+  const given = parseFloat(document.getElementById('given-amount').value) || 0;
+  const el = document.getElementById('change-display');
+  if (!given) { el.textContent = '—'; el.className = 'change-display'; return; }
+  const diff = given - total;
+  el.textContent = (diff < 0 ? '-' : '') + '€' + Math.abs(diff).toFixed(2);
+  el.className = 'change-display ' + (diff >= 0 ? 'positive' : 'negative');
+}
+
+function completeOrder() {
+  if (!order.length || !payment) return;
+  const c = conv(); const total = order.reduce((s, i) => s + i.price, 0);
+  order.forEach(it => {
+    if (it.overlayId) {
+      const ov = c.overlays.find(o => o.id === it.overlayId);
+      if (ov) { ov.stock = Math.max(0, ov.stock - 1); if (it.type === 'overlay+card') ov.cardStock = Math.max(0, (ov.cardStock || 0) - 1); }
+    }
+    if (it.customItemId) {
+      const ci = c.customItems.find(x => x.id === it.customItemId);
+      if (ci && ci.stock > 0) ci.stock = Math.max(0, ci.stock - 1);
+    }
+  });
+  c.sales.push({ id: 's' + Date.now(), time: new Date().toISOString(), items: [...order], total, payment });
+  save(); clearOrder(); renderAll();
+}
+
+// --- Cash modal ---
+function openCashModal() { document.getElementById('cash-input').value = ''; document.getElementById('cash-modal').classList.add('open'); setTimeout(() => document.getElementById('cash-input').focus(), 100); }
+function closeCashModal() { document.getElementById('cash-modal').classList.remove('open'); }
+function addCash(amount) { const input = document.getElementById('cash-input'); input.value = ((parseFloat(input.value) || 0) + amount).toFixed(2); }
+function clearCash() { document.getElementById('cash-input').value = ''; }
+function confirmCash() {
+  const val = document.getElementById('cash-input').value;
+  document.getElementById('given-amount').value = val;
+  calcChange();
+  document.getElementById('change-section').style.display = 'block';
+  closeCashModal();
+}
+
+// --- Stock ---
+function renderStock() {
+  const c = conv();
+
+  // Overlays table
+  const tbody = document.getElementById('stock-tbody');
+  if (!c || !c.overlays.length) {
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--text-dimmer);padding:20px;font-size:13px;">No overlays yet</td></tr>`;
+  } else {
+    tbody.innerHTML = c.overlays.map(ov => `
+      <tr>
+        <td><input type="text" value="${ov.name}" onchange="updateName('${ov.id}',this.value)"></td>
+        <td><input type="number" value="${ov.stock}" min="0" onchange="updateStock('${ov.id}',this.value)"></td>
+        <td><input type="number" value="${ov.cardStock || 0}" min="0" onchange="updateCardStock('${ov.id}',this.value)"></td>
+        <td><button class="btn-delete-row" onclick="deleteOverlay('${ov.id}')">✕</button></td>
+      </tr>`).join('');
+  }
+
+  // Custom items table — always rendered independently
+  const ctbody = document.getElementById('custom-tbody');
+  if (!c || !c.customItems || !c.customItems.length) {
+    ctbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:var(--text-dimmer);padding:20px;font-size:13px;">No custom items yet</td></tr>`;
+  } else {
+    ctbody.innerHTML = c.customItems.map(ci => `
+      <tr>
+        <td><input type="text" value="${ci.name}" onchange="updateCustomName('${ci.id}',this.value)"></td>
+        <td><input type="number" value="${ci.price || 0}" min="0" step="0.50" onchange="updateCustomPrice('${ci.id}',this.value)"></td>
+        <td><input type="number" value="${ci.stock || 0}" min="0" onchange="updateCustomStock('${ci.id}',this.value)"></td>
+        <td><button class="btn-delete-row" onclick="deleteCustomItem('${ci.id}')">✕</button></td>
+      </tr>`).join('');
+  }
+}
+
+function addOverlay() { const c = conv(); c.overlays.push({ id: 'o' + Date.now(), name: 'New Overlay', stock: 0, cardStock: 0 }); save(); renderStock(); renderGrid(); }
+function updateName(id, val) { const ov = conv().overlays.find(o => o.id === id); if (ov) { ov.name = val; save(); renderGrid(); } }
+function updateStock(id, val) { const ov = conv().overlays.find(o => o.id === id); if (ov) { ov.stock = Math.max(0, parseInt(val) || 0); save(); renderGrid(); } }
+function updateCardStock(id, val) { const ov = conv().overlays.find(o => o.id === id); if (ov) { ov.cardStock = Math.max(0, parseInt(val) || 0); save(); renderGrid(); } }
+function deleteOverlay(id) { const c = conv(); c.overlays = c.overlays.filter(o => o.id !== id); save(); renderStock(); renderGrid(); }
+
+function addCustomItem() { const c = conv(); if (!c.customItems) c.customItems = []; c.customItems.push({ id: 'ci' + Date.now(), name: 'New Item', price: 0, stock: 0 }); save(); renderStock(); renderCustomGrid(); }
+function updateCustomName(id, val) { const ci = conv().customItems.find(x => x.id === id); if (ci) { ci.name = val; save(); renderCustomGrid(); } }
+function updateCustomPrice(id, val) { const ci = conv().customItems.find(x => x.id === id); if (ci) { ci.price = Math.max(0, parseFloat(val) || 0); save(); renderCustomGrid(); } }
+function updateCustomStock(id, val) { const ci = conv().customItems.find(x => x.id === id); if (ci) { ci.stock = Math.max(0, parseInt(val) || 0); save(); renderCustomGrid(); } }
+function deleteCustomItem(id) { const c = conv(); c.customItems = c.customItems.filter(x => x.id !== id); save(); renderStock(); renderCustomGrid(); }
+
+function saveStock() {
+  save();
+  const btns = document.querySelectorAll('.save-btn');
+  const btn = btns[0];
+  const orig = btn.textContent; btn.textContent = '✓ SAVED'; setTimeout(() => btn.textContent = orig, 1500);
+}
+
+// --- CSV ---
+function exportStockCSV() {
+  const c = conv(); if (!c) return;
+  const rows = [['Name', 'Stock', 'CardStock']];
+  c.overlays.forEach(ov => rows.push([ov.name, ov.stock, ov.cardStock || 0]));
+  downloadCSV(rows, `${c.name.replace(/\s+/g, '_')}_stock.csv`);
+}
+
+function importStockCSV(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const text = e.target.result.trim();
+    const lines = text.split('\n').map(l => l.split(','));
+    lines.shift();
+    const c = conv(); if (!c) return;
+    c.overlays = lines.map(l => ({ id: 'o' + Date.now() + Math.random().toString(36).substr(2, 5), name: l[0], stock: parseInt(l[1]) || 0, cardStock: parseInt(l[2]) || 0 }));
+    save(); renderStock(); renderGrid();
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function exportSalesCSV() {
+  const c = conv(); if (!c || !c.sales.length) return;
+  const rows = [['Time', 'Items', 'Total', 'Payment']];
+  c.sales.forEach(sale => {
+    const items = sale.items.map(i => `${i.name} (${i.type}, €${i.price})`).join('|');
+    rows.push([sale.time, items, sale.total, sale.payment]);
+  });
+  downloadCSV(rows, `${c.name.replace(/\s+/g, '_')}_sales.csv`);
+}
+
+function downloadCSV(rows, filename) {
+  const csvContent = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+// --- History ---
+function renderHistory() {
+  const c = conv(), list = document.getElementById('history-list'), statsEl = document.getElementById('stats-row');
+  if (!c || !c.sales.length) { statsEl.innerHTML = ''; list.innerHTML = `<div class="empty-state">No sales yet for this convention</div>`; return; }
+  const total = c.sales.reduce((s, x) => s + x.total, 0);
+  statsEl.innerHTML = `
+    <div class="stat-card"><div class="stat-val">€${total.toFixed(0)}</div><div class="stat-lbl">REVENUE</div></div>
+    <div class="stat-card"><div class="stat-val">${c.sales.length}</div><div class="stat-lbl">ORDERS</div></div>
+    <div class="stat-card"><div class="stat-val">€${(total / c.sales.length).toFixed(0)}</div><div class="stat-lbl">AVG ORDER</div></div>`;
+  list.innerHTML = [...c.sales].reverse().map(sale => {
+    const d = new Date(sale.time);
+    const t = d.toLocaleTimeString('en', { hour: '2-digit', minute: '2-digit' }) + ' · ' + d.toLocaleDateString('en', { day: 'numeric', month: 'short' });
+    const lines = sale.items.map(i => `${i.name} — ${i.type === 'overlay' ? 'Overlay' : i.type === 'overlay+card' ? 'Overlay + Card' : 'Custom'} (€${i.price.toFixed(2)})`).join('<br>');
+    return `<div class="sale-card"><div class="sale-header"><div><div class="sale-time">${t}</div><div class="sale-badges"><span class="pay-pill ${sale.payment}">${sale.payment === 'cash' ? 'Cash' : 'PayPal'}</span></div></div><div class="sale-total">€${sale.total.toFixed(2)}</div></div><div class="sale-items-list">${lines}</div></div>`;
+  }).join('');
+}
+
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
   btn.classList.add('active');
+  if (name === 'stock') renderPricing();
 }
 </script>
 </body>
